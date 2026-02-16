@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Print & Craft New 💜</title>
+<title>Print & Craft 💜</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
 body{
   margin:0;
   font-family:'Poppins',sans-serif;
-  background:linear-gradient(135deg,#6a00f4,#9d4edd,#c77dff);
-  color:#fff;
-  text-align:center;
-  overflow-x:hidden;
+  background:#f9f5ff;
+  color:#333;
 }
 
+/* NAVBAR */
 nav{
   display:flex;
   justify-content:space-between;
@@ -24,41 +24,23 @@ nav{
 }
 
 nav h2{
+  color:#6a00f4;
   margin:0;
-  font-weight:800;
 }
 
 nav a{
   text-decoration:none;
   color:#6a00f4;
-  background:#fff;
-  padding:8px 18px;
-  border-radius:20px;
   font-weight:600;
-  margin-left:10px;
-}
-  .cart-link{
-  position:relative;
+  margin-left:20px;
 }
 
-.cart-count{
-  position:absolute;
-  top:-8px;
-  right:-10px;
-  background:red;
-  color:#fff;
-  font-size:12px;
-  padding:2px 6px;
-  border-radius:50%;
-}
-
+/* HERO */
 .hero{
-  height:90vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
+  background:linear-gradient(135deg,#6a00f4,#9d4edd,#c77dff);
+  color:#fff;
+  text-align:center;
+  padding:100px 20px;
 }
 
 .hero h1{
@@ -69,74 +51,165 @@ nav a{
 .hero p{
   font-size:18px;
   max-width:600px;
+  margin:auto;
   margin-bottom:30px;
 }
 
-.btn{
+.hero button{
   padding:15px 35px;
   background:#fff;
   color:#6a00f4;
-  text-decoration:none;
+  border:none;
   border-radius:30px;
-  margin:10px;
   font-weight:bold;
+  cursor:pointer;
   transition:.3s;
 }
 
-.btn:hover{
+.hero button:hover{
   transform:scale(1.1);
-  background:#f3e8ff;
 }
 
-footer{
+/* PRODUCTS */
+.section-title{
+  text-align:center;
+  margin-top:60px;
+  color:#6a00f4;
+}
+
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:30px;
+  padding:40px;
+}
+
+.card{
+  background:#fff;
+  border-radius:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  overflow:hidden;
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-10px);
+}
+
+.card img{
+  width:100%;
+  height:250px;
+  object-fit:cover;
+}
+
+.card-content{
   padding:20px;
-  background:rgba(0,0,0,0.1);
-  font-size:14px;
+  text-align:center;
+}
+
+.card-content h3{
+  margin:10px 0;
+}
+
+.card-content button{
+  padding:10px 20px;
+  background:#6a00f4;
+  color:#fff;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+/* WHY US */
+.why{
+  background:#eee6ff;
+  padding:60px 20px;
+  text-align:center;
+}
+
+.why h2{
+  color:#6a00f4;
+}
+
+.why p{
+  max-width:700px;
+  margin:auto;
+  margin-top:15px;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:20px;
+  background:#6a00f4;
+  color:#fff;
 }
 </style>
 </head>
-
 
 <body>
 
 <nav>
   <h2>Print & Craft 💜</h2>
   <div>
-  <a href="products.html">Shop</a>
-<a href="cart.html" class="cart-link">
-  Cart 🛒
-  <span id="cartCount" class="cart-count">0</span>
-</a>
-  <a href="login.html">Login</a>
-</div>
+    <a href="#products">Products</a>
+    <a href="https://m.me/61579128398313" target="_blank">Message Us</a>
+  </div>
 </nav>
 
-<div class="hero">
+<!-- HERO -->
+<section class="hero">
   <h1>Handmade Gifts That Speak Love 💜</h1>
-  <p>Premium custom crafts, polaroids, bouquets and creative keepsakes made with heart.</p>
+  <p>Create unforgettable memories with our custom crafts, polaroids, bouquets and creative keepsakes made with heart and passion.</p>
+  <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
+    Explore Our Collection
+  </button>
+</section>
 
-<a href="products.html" class="btn">Explore Designs</a>
+<!-- PRODUCTS -->
+<h2 class="section-title" id="products">Our Featured Products 💜</h2>
+
+<div class="products">
+
+  <div class="card">
+    <img src="images/bouquet1.jpg">
+    <div class="card-content">
+      <h3>Fuzzywire Bouquet</h3>
+      <button onclick="window.open('https://m.me/61579128398313')">Order Now</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="images/polaroid1.jpg">
+    <div class="card-content">
+      <h3>Polaroid Prints</h3>
+      <button onclick="window.open('https://m.me/61579128398313')">Order Now</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="images/bracelet1.jpg">
+    <div class="card-content">
+      <h3>Custom Bracelets</h3>
+      <button onclick="window.open('https://m.me/61579128398313')">Order Now</button>
+    </div>
+  </div>
+
 </div>
 
+<!-- WHY CHOOSE US -->
+<section class="why">
+  <h2>Why Choose Print & Craft? 💜</h2>
+  <p>
+    Every piece is carefully handmade with love and attention to detail.
+    We don’t just sell products — we create meaningful gifts that make moments unforgettable.
+    Affordable, aesthetic, and crafted just for you.
+  </p>
+</section>
+
 <footer>
-© 2026 Print & Craft New • Premium Handmade 💜
+© 2026 Print & Craft • Made with 💜
 </footer>
-
-  <script>
-function updateCartCount(){
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  let count = 0;
-
-  cart.forEach(item=>{
-    count += item.quantity;
-  });
-
-  document.getElementById("cartCount").innerText = count;
-}
-
-updateCartCount();
-</script>
-
 
 </body>
 </html>
