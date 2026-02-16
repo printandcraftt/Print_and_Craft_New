@@ -37,6 +37,20 @@ nav a{
   font-weight:600;
   margin-left:10px;
 }
+  .cart-link{
+  position:relative;
+}
+
+.cart-count{
+  position:absolute;
+  top:-8px;
+  right:-10px;
+  background:red;
+  color:#fff;
+  font-size:12px;
+  padding:2px 6px;
+  border-radius:50%;
+}
 
 .hero{
   height:90vh;
@@ -82,13 +96,17 @@ footer{
 </style>
 </head>
 
+
 <body>
 
 <nav>
   <h2>Print & Craft 💜</h2>
   <div>
   <a href="products.html">Shop</a>
-  <a href="cart.html">Cart 🛒</a>
+<a href="cart.html" class="cart-link">
+  Cart 🛒
+  <span id="cartCount" class="cart-count">0</span>
+</a>
   <a href="login.html">Login</a>
 </div>
 </nav>
@@ -103,6 +121,22 @@ footer{
 <footer>
 © 2026 Print & Craft New • Premium Handmade 💜
 </footer>
+
+  <script>
+function updateCartCount(){
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let count = 0;
+
+  cart.forEach(item=>{
+    count += item.quantity;
+  });
+
+  document.getElementById("cartCount").innerText = count;
+}
+
+updateCartCount();
+</script>
+
 
 </body>
 </html>
