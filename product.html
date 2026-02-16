@@ -27,10 +27,29 @@ body{
   box-shadow:0 10px 25px rgba(0,0,0,0.1);
 }
 
-.product-box img{
+.slider{
+  position:relative;
+}
+
+.slider img{
   width:100%;
   border-radius:15px;
 }
+
+.arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:#6a00f4;
+  color:#fff;
+  border:none;
+  padding:8px 12px;
+  cursor:pointer;
+  border-radius:50%;
+}
+
+.arrow.left{ left:10px; }
+.arrow.right{ right:10px; }
 
 h2{
   color:#6a00f4;
@@ -39,6 +58,12 @@ h2{
 .price{
   font-size:20px;
   margin:10px 0;
+}
+
+input{
+  width:60px;
+  padding:5px;
+  text-align:center;
 }
 
 .btn{
@@ -58,11 +83,22 @@ h2{
 <div class="container">
 
   <div class="product-box">
-    <img id="productImage" src="">
+
+    <div class="slider">
+      <button class="arrow left" onclick="prevImage()">‹</button>
+      <img id="productImage">
+      <button class="arrow right" onclick="nextImage()">›</button>
+    </div>
+
     <h2 id="productTitle"></h2>
     <div class="price" id="productPrice"></div>
 
+    Quantity:
+    <input type="number" id="qty" value="1" min="1">
+
+    <br>
     <button class="btn" onclick="addToCart()">Add to Cart</button>
+
   </div>
 
 </div>
@@ -72,29 +108,63 @@ const products = {
   bouquet:{
     name:"Fuzzywire Bouquet",
     price:350,
-    image:"https://via.placeholder.com/500x400"
+    images:[
+      "https://via.placeholder.com/500x400/9d4edd/ffffff",
+      "https://via.placeholder.com/500x400/6a00f4/ffffff",
+      "https://via.placeholder.com/500x400/c77dff/ffffff"
+    ]
   },
   polaroid:{
     name:"Polaroid Prints",
     price:150,
-    image:"https://via.placeholder.com/500x400"
+    images:[
+      "https://via.placeholder.com/500x400/6a00f4/ffffff",
+      "https://via.placeholder.com/500x400/9d4edd/ffffff"
+    ]
   }
 };
 
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
-
 const product = products[id];
+
+let currentImage = 0;
 
 if(product){
   document.getElementById("productTitle").innerText = product.name;
   document.getElementById("productPrice").innerText = "₱" + product.price;
-  document.getElementById("productImage").src = product.image;
+  showImage();
+}
+
+function showImage(){
+  document.getElementById("productImage").src = product.images[currentImage];
+}
+
+function nextImage(){
+  currentImage++;
+  if(currentImage >= product.images.length){
+    currentImage = 0;
+  }
+  showImage();
+}
+
+function prevImage(){
+  currentImage--;
+  if(currentImage < 0){
+    currentImage = product.images.length - 1;
+  }
+  showImage();
 }
 
 function addToCart(){
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  cart.push(product);
+
+  cart.push({
+    name:product.name,
+    price:product.price,
+    quantity:parseInt(document.getElementById("qty").value)
+  });
+
   localStorage.setItem("cart", JSON.stringify(cart));
   alert("Added to cart 💜");
 }
