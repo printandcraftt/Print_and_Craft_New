@@ -91,7 +91,29 @@ function removeItem(index){
 }
 
 function checkout(){
-  alert("Next step we connect this to Messenger 💜");
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  if(cart.length === 0){
+    alert("Cart is empty 💜");
+    return;
+  }
+
+  let message = "Hello 💜 I would like to order:\n\n";
+
+  cart.forEach(item=>{
+    message += `${item.name} - ₱${item.price} x ${item.quantity}\n`;
+  });
+
+  let total = 0;
+  cart.forEach(item=>{
+    total += item.price * item.quantity;
+  });
+
+  message += `\nTotal: ₱${total}`;
+
+  let encodedMessage = encodeURIComponent(message);
+
+  window.open(`https://m.me/https://www.facebook.com/profile.php?id=61579128398313?text=${encodedMessage}`);
 }
 
 loadCart();
