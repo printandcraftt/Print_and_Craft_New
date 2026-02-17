@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>All Products 💜</title>
+<title>Products | Print & Craft 💜</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
@@ -12,21 +12,21 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
+  font-family:'Poppins', sans-serif;
 }
 
 body{
-  background:#f5f0ff;
+  background:#f6f2ff;
 }
 
-/* NAV */
+/* NAVBAR */
 nav{
-  background:white;
-  padding:15px 20px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  box-shadow:0 5px 15px rgba(0,0,0,0.05);
+  padding:18px 20px;
+  background:white;
+  box-shadow:0 4px 15px rgba(0,0,0,.05);
 }
 
 .logo{
@@ -40,112 +40,84 @@ nav a{
   font-weight:600;
 }
 
-h1{
+/* TITLE */
+.page-title{
   text-align:center;
-  margin:40px 0;
-  color:#6a00f4;
-}
-
-/* SECTION */
-.section{
   padding:40px 20px;
-  opacity:0;
-  transform:translateY(30px);
-  transition:0.6s ease;
 }
 
-.section.show{
-  opacity:1;
-  transform:translateY(0);
-}
-
-.section h2{
-  margin-bottom:20px;
+.page-title h1{
   color:#6a00f4;
 }
 
-/* GRID */
-.grid{
+/* CATEGORY */
+.category{
+  padding:40px 20px;
+  text-align:center;
+}
+
+.category h2{
+  color:#6a00f4;
+  margin-bottom:20px;
+}
+
+/* GALLERY */
+.gallery{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-  gap:12px;
+  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+  gap:15px;
+  max-width:900px;
+  margin:0 auto 20px;
 }
 
-.image-box{
-  position:relative;
-  cursor:pointer;
-}
-
-.image-box img{
+.gallery img{
   width:100%;
-  height:170px;
+  height:150px;
   object-fit:cover;
-  border-radius:12px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+  border-radius:15px;
+  box-shadow:0 8px 20px rgba(106,0,244,0.15);
+  cursor:pointer;
   transition:0.3s;
 }
 
-.image-box:hover img{
+.gallery img:hover{
   transform:scale(1.05);
 }
 
 /* PRICE */
 .price{
-  position:absolute;
-  bottom:8px;
-  right:8px;
-  background:#6a00f4;
-  color:white;
-  padding:5px 10px;
-  font-size:12px;
-  border-radius:20px;
+  margin-bottom:15px;
+  font-weight:600;
+  color:#6a00f4;
 }
 
 /* BUTTON */
 .message-btn{
-  margin-top:20px;
-  padding:10px 20px;
-  background:#6a00f4;
+  display:inline-block;
+  background:linear-gradient(45deg,#6a00f4,#9d4edd);
   color:white;
-  border:none;
-  border-radius:25px;
-  cursor:pointer;
-  font-size:14px;
+  padding:12px 28px;
+  border-radius:30px;
+  text-decoration:none;
+  font-weight:600;
 }
 
 /* LIGHTBOX */
 .lightbox{
   position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+  inset:0;
+  background:rgba(0,0,0,.8);
+  backdrop-filter:blur(10px);
   display:none;
   justify-content:center;
   align-items:center;
-  z-index:9999;
-}
-
-.blur-bg{
-  position:absolute;
-  width:100%;
-  height:100%;
-  backdrop-filter:blur(15px);
-  background:rgba(0,0,0,0.7);
+  z-index:1000;
 }
 
 .lightbox img{
   max-width:90%;
-  max-height:85%;
-  border-radius:12px;
-  position:relative;
-  z-index:2;
-  animation:zoomIn .3s ease;
-}
-
-@keyframes zoomIn{
-  from{transform:scale(0.8); opacity:0;}
-  to{transform:scale(1); opacity:1;}
+  max-height:80%;
+  border-radius:15px;
 }
 
 .close-btn{
@@ -155,28 +127,23 @@ h1{
   font-size:28px;
   color:white;
   cursor:pointer;
-  z-index:3;
 }
 
-.nav-btn{
+.arrow{
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  background:rgba(255,255,255,0.2);
-  border:none;
+  font-size:35px;
   color:white;
-  font-size:30px;
-  padding:10px 15px;
   cursor:pointer;
-  border-radius:50%;
-  z-index:3;
+  padding:10px;
 }
 
-.nav-btn.left{ left:20px; }
-.nav-btn.right{ right:20px; }
+.prev{ left:20px; }
+.next{ right:20px; }
 
-@media(max-width:600px){
-  .grid{
+@media(max-width:480px){
+  .gallery{
     grid-template-columns:repeat(2,1fr);
   }
 }
@@ -190,199 +157,236 @@ h1{
   <a href="index.html">Home</a>
 </nav>
 
-<h1>All Our Designs ✨</h1>
+<div class="page-title">
+  <h1>All Our Designs ✨</h1>
+</div>
 
 <!-- ================= BOUQUET ================= -->
-<div class="section">
-<h2>Fuzzywire Bouquet</h2>
-<div class="grid">
-<imgBox src="images/bouquet/Bouquet.jpg"/>
-<imgBox src="images/bouquet/Bouquet1.jpg"/>
-<imgBox src="images/bouquet/Bouquet2.jpg"/>
-<imgBox src="images/bouquet/Bouquet3.jpg"/>
-<imgBox src="images/bouquet/Bouquet4.jpg"/>
-<imgBox src="images/bouquet/Bouquet5.jpg"/>
-<imgBox src="images/bouquet/Bouquet6.jpg"/>
-<imgBox src="images/bouquet/Bouquet7.jpg"/>
-<imgBox src="images/bouquet/Bouquet8.jpg"/>
-<imgBox src="images/bouquet/Bouquet9.jpg"/>
-<imgBox src="images/bouquet/Bouquet10.jpg"/>
-<imgBox src="images/bouquet/Bouquet11.jpg"/>
-<imgBox src="images/bouquet/Bouquet12.jpg"/>
-<imgBox src="images/bouquet/Bouquet13.jpg"/>
-<imgBox src="images/bouquet/Bouquet14.jpg"/>
-<imgBox src="images/bouquet/Bouquet15.jpg"/>
-<imgBox src="images/bouquet/Bouquet16.jpg"/>
-<imgBox src="images/bouquet/Bouquet17.jpg"/>
-<imgBox src="images/bouquet/Bouquet18.jpg"/>
+<div class="category">
+<h2>Fuzzywire Bouquet 💜</h2>
+<div class="gallery">
+
+<img src="images/bouquet/Bouquet.jpg">
+<img src="images/bouquet/Bouquet1.jpg">
+<img src="images/bouquet/Bouquet2.jpg">
+<img src="images/bouquet/Bouquet3.jpg">
+<img src="images/bouquet/Bouquet4.jpg">
+<img src="images/bouquet/Bouquet5.jpg">
+<img src="images/bouquet/Bouquet6.jpg">
+<img src="images/bouquet/Bouquet7.jpg">
+<img src="images/bouquet/Bouquet8.jpg">
+<img src="images/bouquet/Bouquet9.jpg">
+<img src="images/bouquet/Bouquet10.jpg">
+<img src="images/bouquet/Bouquet11.jpg">
+<img src="images/bouquet/Bouquet12.jpg">
+<img src="images/bouquet/Bouquet13.jpg">
+<img src="images/bouquet/Bouquet14.jpg">
+<img src="images/bouquet/Bouquet15.jpg">
+<img src="images/bouquet/Bouquet16.jpg">
+<img src="images/bouquet/Bouquet17.jpg">
+<img src="images/bouquet/Bouquet18.jpg">
+
 </div>
-<button class="message-btn" onclick="window.open('https://m.me/61579128398313')">Message to Order 💜</button>
+<div class="price">₱280 – ₱400</div>
+<a href="https://m.me/61579128398313" target="_blank" class="message-btn">
+Message to Order 💜
+</a>
 </div>
 
-<!-- ================= POLAROID ================= -->
-<div class="section">
-<h2>Polaroid Prints</h2>
-<div class="grid">
-<imgBox src="images/polaroid/Polaroid.jpg"/>
-<imgBox src="images/polaroid/Polaroid1.jpg"/>
-<imgBox src="images/polaroid/Polaroid2.jpg"/>
-<imgBox src="images/polaroid/Polaroid3.jpg"/>
-<imgBox src="images/polaroid/Polaroid4.jpg"/>
-<imgBox src="images/polaroid/Polaroid5.jpg"/>
-<imgBox src="images/polaroid/Polaroid6.jpg"/>
-<imgBox src="images/polaroid/Polaroid7.jpg"/>
-<imgBox src="images/polaroid/Polaroid8.jpg"/>
-<imgBox src="images/polaroid/Polaroid9.jpg"/>
-<imgBox src="images/polaroid/Polaroid10.jpg"/>
-<imgBox src="images/polaroid/Polaroid11.jpg"/>
-<imgBox src="images/polaroid/Polaroid12.jpg"/>
-<imgBox src="images/polaroid/Polaroid13.jpg"/>
+<!-- ================= POLAROID PRINTS ================= -->
+<div class="category">
+<h2>Polaroid Prints 📸</h2>
+<div class="gallery">
+
+<img src="images/polaroid/Polaroid.jpg">
+<img src="images/polaroid/Polaroid1.jpg">
+<img src="images/polaroid/Polaroid2.jpg">
+<img src="images/polaroid/Polaroid3.jpg">
+<img src="images/polaroid/Polaroid4.jpg">
+<img src="images/polaroid/Polaroid5.jpg">
+<img src="images/polaroid/Polaroid6.jpg">
+<img src="images/polaroid/Polaroid7.jpg">
+<img src="images/polaroid/Polaroid8.jpg">
+<img src="images/polaroid/Polaroid9.jpg">
+<img src="images/polaroid/Polaroid10.jpg">
+<img src="images/polaroid/Polaroid11.jpg">
+<img src="images/polaroid/Polaroid12.jpg">
+<img src="images/polaroid/Polaroid13.jpg">
+
 </div>
-<button class="message-btn" onclick="window.open('https://m.me/61579128398313')">Message to Order 💜</button>
+<div class="price">Starts at ₱50</div>
+<a href="https://m.me/61579128398313" target="_blank" class="message-btn">
+Message to Order 💜
+</a>
 </div>
 
-<!-- ================= KEYCHAIN ================= -->
-<div class="section">
-<h2>Keychain</h2>
-<div class="grid">
-<imgBox src="images/keychain/Keychain.jpg"/>
-<imgBox src="images/keychain/Keychain1.jpg"/>
-<imgBox src="images/keychain/Keychain2.jpg"/>
-<imgBox src="images/keychain/Keychain3.jpg"/>
-<imgBox src="images/keychain/Keychain4.jpg"/>
-<imgBox src="images/keychain/Keychain5.jpg"/>
-<imgBox src="images/keychain/Keychain6.jpg"/>
-<imgBox src="images/keychain/Keychain7.jpg"/>
-<imgBox src="images/keychain/Keychain8.jpg"/>
-<imgBox src="images/keychain/Keychain9.jpg"/>
-<imgBox src="images/keychain/Keychain10.jpg"/>
-<imgBox src="images/keychain/Keychain11.jpg"/>
-<imgBox src="images/keychain/Keychain12.jpg"/>
-<imgBox src="images/keychain/Keychain13.jpg"/>
-<imgBox src="images/keychain/Keychain14.jpg"/>
+
+<!-- ================= POLAROID BOX SET ================= -->
+<div class="category">
+<h2>Polaroid Box Set 🎁</h2>
+<div class="gallery">
+
+<img src="images/box set/Box set.jpg">
+<img src="images/box set/Box set1.jpg">
+<img src="images/box set/Box set2.jpg">
+<img src="images/box set/Box set3.jpg">
+<img src="images/box set/Box set4.jpg">
+<img src="images/box set/Box set5.jpg">
+<img src="images/box set/Box set6.jpg">
+<img src="images/box set/Box set7.jpg">
+<img src="images/box set/Box set8.jpg">
+<img src="images/box set/Box set9.jpg">
+<img src="images/box set/Box set10.jpg">
+<img src="images/box set/Box set11.jpg">
+<img src="images/box set/Box set12.jpg">
+<img src="images/box set/Box set13.jpg">
+<img src="images/box set/Box set14.jpg">
+<img src="images/box set/Box set15.jpg">
+<img src="images/box set/Box set16.jpg">
+<img src="images/box set/Box set17.jpg">
+
 </div>
-<button class="message-btn" onclick="window.open('https://m.me/61579128398313')">Message to Order 💜</button>
+<div class="price">₱145 (45 pcs)</div>
+<a href="https://m.me/61579128398313" target="_blank" class="message-btn">
+Message to Order 💜
+</a>
 </div>
+
 
 <!-- ================= BRACELET ================= -->
-<div class="section">
-<h2>Bracelet</h2>
-<div class="grid">
-<imgBox src="images/bracelet/Bracelet.jpg"/>
-<imgBox src="images/bracelet/Bracelet1.jpg"/>
-<imgBox src="images/bracelet/Bracelet2.jpg"/>
-<imgBox src="images/bracelet/Bracelet3.jpg"/>
-<imgBox src="images/bracelet/Bracelet4.jpg"/>
-<imgBox src="images/bracelet/Bracelet5.jpg"/>
-<imgBox src="images/bracelet/Bracelet6.jpg"/>
+<div class="category">
+<h2>Bracelet 💖</h2>
+<div class="gallery">
+
+<img src="images/bracelet/Bracelet.jpg">
+<img src="images/bracelet/Bracelet1.jpg">
+<img src="images/bracelet/Bracelet2.jpg">
+<img src="images/bracelet/Bracelet3.jpg">
+<img src="images/bracelet/Bracelet4.jpg">
+<img src="images/bracelet/Bracelet5.jpg">
+<img src="images/bracelet/Bracelet6.jpg">
+
 </div>
-<button class="message-btn" onclick="window.open('https://m.me/61579128398313')">Message to Order 💜</button>
+<div class="price">₱35 – ₱99</div>
+<a href="https://m.me/61579128398313" target="_blank" class="message-btn">
+Message to Order 💜
+</a>
 </div>
 
-<!-- ================= FRAME ================= -->
-<div class="section">
-<h2>Frame</h2>
-<div class="grid">
-<imgBox src="images/frame/Frame.jpg"/>
-<imgBox src="images/frame/Frame1.jpg"/>
-<imgBox src="images/frame/Frame2.jpg"/>
+
+<!-- ================= KEYCHAIN ================= -->
+<div class="category">
+<h2>Keychain 🔑</h2>
+<div class="gallery">
+
+<img src="images/keychain/Keychain.jpg">
+<img src="images/keychain/Keychain1.jpg">
+<img src="images/keychain/Keychain2.jpg">
+<img src="images/keychain/Keychain3.jpg">
+<img src="images/keychain/Keychain4.jpg">
+<img src="images/keychain/Keychain5.jpg">
+<img src="images/keychain/Keychain6.jpg">
+<img src="images/keychain/Keychain7.jpg">
+<img src="images/keychain/Keychain8.jpg">
+<img src="images/keychain/Keychain9.jpg">
+<img src="images/keychain/Keychain10.jpg">
+<img src="images/keychain/Keychain11.jpg">
+<img src="images/keychain/Keychain12.jpg">
+<img src="images/keychain/Keychain13.jpg">
+<img src="images/keychain/Keychain14.jpg">
+
 </div>
-<button class="message-btn" onclick="window.open('https://m.me/61579128398313')">Message to Order 💜</button>
+<div class="price">₱20 – ₱35</div>
+<a href="https://m.me/61579128398313" target="_blank" class="message-btn">
+Message to Order 💜
+</a>
 </div>
+
+
+<!-- ================= PHOTO FRAME ================= -->
+<div class="category">
+<h2>Photo Frame 🖼️</h2>
+<div class="gallery">
+
+<img src="images/frame/Frame.jpg">
+<img src="images/frame/Frame1.jpg">
+<img src="images/frame/Frame2.jpg">
+
+</div>
+<div class="price">₱110</div>
+<a href="https://m.me/61579128398313" target="_blank" class="message-btn">
+Message to Order 💜
+</a>
+</div>
+
 
 <!-- ================= PHOTOSTRIPS ================= -->
-<div class="section">
-<h2>Photostrips</h2>
-<div class="grid">
-<imgBox src="images/Photostrips/PhotoStrips.jpg"/>
-<imgBox src="images/Photostrips/PhotoStrips1.jpg"/>
+<div class="category">
+<h2>Photostrips 📷</h2>
+<div class="gallery">
+
+<img src="images/Photostrips/PhotoStrips.jpg">
+<img src="images/Photostrips/PhotoStrips1.jpg">
+
 </div>
-<button class="message-btn" onclick="window.open('https://m.me/61579128398313')">Message to Order 💜</button>
+<div class="price">2 pcs – ₱20</div>
+<a href="https://m.me/61579128398313" target="_blank" class="message-btn">
+Message to Order 💜
+</a>
 </div>
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
-  <div class="blur-bg"></div>
   <span class="close-btn" onclick="closeLightbox()">✕</span>
-  <button class="nav-btn left" onclick="prevImage()">‹</button>
-  <img id="lightbox-img">
-  <button class="nav-btn right" onclick="nextImage()">›</button>
+  <span class="arrow prev" onclick="changeImage(-1)">❮</span>
+  <img id="lightboxImg">
+  <span class="arrow next" onclick="changeImage(1)">❯</span>
 </div>
 
 <script>
-
-/* Replace imgBox shortcut */
-document.querySelectorAll("imgBox").forEach(el=>{
-  const src = el.getAttribute("src");
-  el.outerHTML = `
-  <div class="image-box">
-    <img src="${src}">
-    <div class="price">See Price</div>
-  </div>`;
-});
-
-/* Scroll Animation */
-const sections = document.querySelectorAll(".section");
-window.addEventListener("scroll", ()=>{
-  sections.forEach(sec=>{
-    if(sec.getBoundingClientRect().top < window.innerHeight - 100){
-      sec.classList.add("show");
-    }
-  });
-});
-
-/* Lightbox */
-let images = [];
 let currentIndex = 0;
+let images = document.querySelectorAll(".gallery img");
+let lightbox = document.getElementById("lightbox");
+let lightboxImg = document.getElementById("lightboxImg");
 
-document.querySelectorAll(".image-box img").forEach((img, index)=>{
-  images.push(img.src);
-  img.parentElement.addEventListener("click", ()=>{
-    openLightbox(index);
+images.forEach((img,index)=>{
+  img.addEventListener("click",()=>{
+    currentIndex = index;
+    openLightbox();
   });
 });
 
-const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightbox-img");
-
-function openLightbox(index){
-  currentIndex = index;
-  lightboxImg.src = images[currentIndex];
-  lightbox.style.display = "flex";
-  history.pushState({lightbox:true}, "");
+function openLightbox(){
+  lightbox.style.display="flex";
+  lightboxImg.src = images[currentIndex].src;
+  history.pushState(null,null,null);
 }
 
 function closeLightbox(){
-  lightbox.style.display = "none";
-  history.back();
+  lightbox.style.display="none";
 }
 
-function nextImage(){
-  currentIndex = (currentIndex + 1) % images.length;
-  lightboxImg.src = images[currentIndex];
+function changeImage(direction){
+  currentIndex += direction;
+  if(currentIndex < 0) currentIndex = images.length - 1;
+  if(currentIndex >= images.length) currentIndex = images.length - 1;
+  lightboxImg.src = images[currentIndex].src;
 }
 
-function prevImage(){
-  currentIndex = (currentIndex - 1 + images.length) % images.length;
-  lightboxImg.src = images[currentIndex];
-}
-
-/* Swipe */
 let startX = 0;
-lightbox.addEventListener("touchstart", e=>{
+lightbox.addEventListener("touchstart",e=>{
   startX = e.touches[0].clientX;
 });
-lightbox.addEventListener("touchend", e=>{
+
+lightbox.addEventListener("touchend",e=>{
   let endX = e.changedTouches[0].clientX;
-  if(endX < startX - 50) nextImage();
-  if(endX > startX + 50) prevImage();
+  if(endX < startX - 50) changeImage(1);
+  if(endX > startX + 50) changeImage(-1);
 });
 
-/* Back Button */
-window.addEventListener("popstate", ()=>{
-  lightbox.style.display = "none";
+window.addEventListener("popstate",()=>{
+  closeLightbox();
 });
-
 </script>
 
 </body>
