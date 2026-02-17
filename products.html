@@ -19,6 +19,7 @@ body{
   background:#f5f0ff;
 }
 
+/* NAV */
 nav{
   background:white;
   padding:15px 20px;
@@ -45,8 +46,17 @@ h1{
   color:#6a00f4;
 }
 
+/* SECTION */
 .section{
   padding:40px 20px;
+  opacity:0;
+  transform:translateY(30px);
+  transition:0.6s ease;
+}
+
+.section.show{
+  opacity:1;
+  transform:translateY(0);
 }
 
 .section h2{
@@ -54,23 +64,121 @@ h1{
   color:#6a00f4;
 }
 
+/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
   gap:12px;
 }
 
-.grid img{
+.image-box{
+  position:relative;
+  cursor:pointer;
+}
+
+.image-box img{
   width:100%;
-  border-radius:12px;
   height:170px;
   object-fit:cover;
+  border-radius:12px;
   box-shadow:0 8px 20px rgba(0,0,0,0.08);
   transition:0.3s;
 }
 
-.grid img:hover{
+.image-box:hover img{
   transform:scale(1.05);
+}
+
+/* PRICE */
+.price{
+  position:absolute;
+  bottom:8px;
+  right:8px;
+  background:#6a00f4;
+  color:white;
+  padding:5px 10px;
+  font-size:12px;
+  border-radius:20px;
+}
+
+/* BUTTON */
+.message-btn{
+  margin-top:20px;
+  padding:10px 20px;
+  background:#6a00f4;
+  color:white;
+  border:none;
+  border-radius:25px;
+  cursor:pointer;
+  font-size:14px;
+}
+
+/* LIGHTBOX */
+.lightbox{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.blur-bg{
+  position:absolute;
+  width:100%;
+  height:100%;
+  backdrop-filter:blur(15px);
+  background:rgba(0,0,0,0.7);
+}
+
+.lightbox img{
+  max-width:90%;
+  max-height:85%;
+  border-radius:12px;
+  position:relative;
+  z-index:2;
+  animation:zoomIn .3s ease;
+}
+
+@keyframes zoomIn{
+  from{transform:scale(0.8); opacity:0;}
+  to{transform:scale(1); opacity:1;}
+}
+
+.close-btn{
+  position:absolute;
+  top:20px;
+  right:25px;
+  font-size:28px;
+  color:white;
+  cursor:pointer;
+  z-index:3;
+}
+
+.nav-btn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(255,255,255,0.2);
+  border:none;
+  color:white;
+  font-size:30px;
+  padding:10px 15px;
+  cursor:pointer;
+  border-radius:50%;
+  z-index:3;
+}
+
+.nav-btn.left{ left:20px; }
+.nav-btn.right{ right:20px; }
+
+@media(max-width:600px){
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
 }
 </style>
 </head>
@@ -84,107 +192,198 @@ h1{
 
 <h1>All Our Designs ✨</h1>
 
-<!-- BOUQUET -->
+<!-- ================= BOUQUET ================= -->
 <div class="section">
 <h2>Fuzzywire Bouquet</h2>
 <div class="grid">
-<img src="images/bouquet/Bouquet.jpg">
-<img src="images/bouquet/Bouquet1.jpg">
-<img src="images/bouquet/Bouquet2.jpg">
-<img src="images/bouquet/Bouquet3.jpg">
-<img src="images/bouquet/Bouquet4.jpg">
-<img src="images/bouquet/Bouquet5.jpg">
-<img src="images/bouquet/Bouquet6.jpg">
-<img src="images/bouquet/Bouquet7.jpg">
-<img src="images/bouquet/Bouquet8.jpg">
-<img src="images/bouquet/Bouquet9.jpg">
-<img src="images/bouquet/Bouquet10.jpg">
-<img src="images/bouquet/Bouquet11.jpg">
-<img src="images/bouquet/Bouquet12.jpg">
-<img src="images/bouquet/Bouquet13.jpg">
-<img src="images/bouquet/Bouquet14.jpg">
-<img src="images/bouquet/Bouquet15.jpg">
-<img src="images/bouquet/Bouquet16.jpg">
-<img src="images/bouquet/Bouquet17.jpg">
-<img src="images/bouquet/Bouquet18.jpg">
+<imgBox src="images/bouquet/Bouquet.jpg"/>
+<imgBox src="images/bouquet/Bouquet1.jpg"/>
+<imgBox src="images/bouquet/Bouquet2.jpg"/>
+<imgBox src="images/bouquet/Bouquet3.jpg"/>
+<imgBox src="images/bouquet/Bouquet4.jpg"/>
+<imgBox src="images/bouquet/Bouquet5.jpg"/>
+<imgBox src="images/bouquet/Bouquet6.jpg"/>
+<imgBox src="images/bouquet/Bouquet7.jpg"/>
+<imgBox src="images/bouquet/Bouquet8.jpg"/>
+<imgBox src="images/bouquet/Bouquet9.jpg"/>
+<imgBox src="images/bouquet/Bouquet10.jpg"/>
+<imgBox src="images/bouquet/Bouquet11.jpg"/>
+<imgBox src="images/bouquet/Bouquet12.jpg"/>
+<imgBox src="images/bouquet/Bouquet13.jpg"/>
+<imgBox src="images/bouquet/Bouquet14.jpg"/>
+<imgBox src="images/bouquet/Bouquet15.jpg"/>
+<imgBox src="images/bouquet/Bouquet16.jpg"/>
+<imgBox src="images/bouquet/Bouquet17.jpg"/>
+<imgBox src="images/bouquet/Bouquet18.jpg"/>
 </div>
+<button class="message-btn" onclick="window.open('https://m.me/61579128398313')">Message to Order 💜</button>
 </div>
 
-<!-- POLAROID -->
+<!-- ================= POLAROID ================= -->
 <div class="section">
 <h2>Polaroid Prints</h2>
 <div class="grid">
-<img src="images/polaroid/Polaroid.jpg">
-<img src="images/polaroid/Polaroid1.jpg">
-<img src="images/polaroid/Polaroid2.jpg">
-<img src="images/polaroid/Polaroid3.jpg">
-<img src="images/polaroid/Polaroid4.jpg">
-<img src="images/polaroid/Polaroid5.jpg">
-<img src="images/polaroid/Polaroid6.jpg">
-<img src="images/polaroid/Polaroid7.jpg">
-<img src="images/polaroid/Polaroid8.jpg">
-<img src="images/polaroid/Polaroid9.jpg">
-<img src="images/polaroid/Polaroid10.jpg">
-<img src="images/polaroid/Polaroid11.jpg">
-<img src="images/polaroid/Polaroid12.jpg">
-<img src="images/polaroid/Polaroid13.jpg">
+<imgBox src="images/polaroid/Polaroid.jpg"/>
+<imgBox src="images/polaroid/Polaroid1.jpg"/>
+<imgBox src="images/polaroid/Polaroid2.jpg"/>
+<imgBox src="images/polaroid/Polaroid3.jpg"/>
+<imgBox src="images/polaroid/Polaroid4.jpg"/>
+<imgBox src="images/polaroid/Polaroid5.jpg"/>
+<imgBox src="images/polaroid/Polaroid6.jpg"/>
+<imgBox src="images/polaroid/Polaroid7.jpg"/>
+<imgBox src="images/polaroid/Polaroid8.jpg"/>
+<imgBox src="images/polaroid/Polaroid9.jpg"/>
+<imgBox src="images/polaroid/Polaroid10.jpg"/>
+<imgBox src="images/polaroid/Polaroid11.jpg"/>
+<imgBox src="images/polaroid/Polaroid12.jpg"/>
+<imgBox src="images/polaroid/Polaroid13.jpg"/>
 </div>
+<button class="message-btn" onclick="window.open('https://m.me/61579128398313')">Message to Order 💜</button>
 </div>
 
-<!-- KEYCHAIN -->
+<!-- ================= KEYCHAIN ================= -->
 <div class="section">
 <h2>Keychain</h2>
 <div class="grid">
-<img src="images/keychain/Keychain.jpg">
-<img src="images/keychain/Keychain1.jpg">
-<img src="images/keychain/Keychain2.jpg">
-<img src="images/keychain/Keychain3.jpg">
-<img src="images/keychain/Keychain4.jpg">
-<img src="images/keychain/Keychain5.jpg">
-<img src="images/keychain/Keychain6.jpg">
-<img src="images/keychain/Keychain7.jpg">
-<img src="images/keychain/Keychain8.jpg">
-<img src="images/keychain/Keychain9.jpg">
-<img src="images/keychain/Keychain10.jpg">
-<img src="images/keychain/Keychain11.jpg">
-<img src="images/keychain/Keychain12.jpg">
-<img src="images/keychain/Keychain13.jpg">
-<img src="images/keychain/Keychain14.jpg">
+<imgBox src="images/keychain/Keychain.jpg"/>
+<imgBox src="images/keychain/Keychain1.jpg"/>
+<imgBox src="images/keychain/Keychain2.jpg"/>
+<imgBox src="images/keychain/Keychain3.jpg"/>
+<imgBox src="images/keychain/Keychain4.jpg"/>
+<imgBox src="images/keychain/Keychain5.jpg"/>
+<imgBox src="images/keychain/Keychain6.jpg"/>
+<imgBox src="images/keychain/Keychain7.jpg"/>
+<imgBox src="images/keychain/Keychain8.jpg"/>
+<imgBox src="images/keychain/Keychain9.jpg"/>
+<imgBox src="images/keychain/Keychain10.jpg"/>
+<imgBox src="images/keychain/Keychain11.jpg"/>
+<imgBox src="images/keychain/Keychain12.jpg"/>
+<imgBox src="images/keychain/Keychain13.jpg"/>
+<imgBox src="images/keychain/Keychain14.jpg"/>
 </div>
+<button class="message-btn" onclick="window.open('https://m.me/61579128398313')">Message to Order 💜</button>
 </div>
 
-<!-- BRACELET -->
+<!-- ================= BRACELET ================= -->
 <div class="section">
 <h2>Bracelet</h2>
 <div class="grid">
-<img src="images/bracelet/Bracelet.jpg">
-<img src="images/bracelet/Bracelet1.jpg">
-<img src="images/bracelet/Bracelet2.jpg">
-<img src="images/bracelet/Bracelet3.jpg">
-<img src="images/bracelet/Bracelet4.jpg">
-<img src="images/bracelet/Bracelet5.jpg">
-<img src="images/bracelet/Bracelet6.jpg">
+<imgBox src="images/bracelet/Bracelet.jpg"/>
+<imgBox src="images/bracelet/Bracelet1.jpg"/>
+<imgBox src="images/bracelet/Bracelet2.jpg"/>
+<imgBox src="images/bracelet/Bracelet3.jpg"/>
+<imgBox src="images/bracelet/Bracelet4.jpg"/>
+<imgBox src="images/bracelet/Bracelet5.jpg"/>
+<imgBox src="images/bracelet/Bracelet6.jpg"/>
 </div>
+<button class="message-btn" onclick="window.open('https://m.me/61579128398313')">Message to Order 💜</button>
 </div>
 
-<!-- FRAME -->
+<!-- ================= FRAME ================= -->
 <div class="section">
 <h2>Frame</h2>
 <div class="grid">
-<img src="images/frame/Frame.jpg">
-<img src="images/frame/Frame1.jpg">
-<img src="images/frame/Frame2.jpg">
+<imgBox src="images/frame/Frame.jpg"/>
+<imgBox src="images/frame/Frame1.jpg"/>
+<imgBox src="images/frame/Frame2.jpg"/>
 </div>
+<button class="message-btn" onclick="window.open('https://m.me/61579128398313')">Message to Order 💜</button>
 </div>
 
-<!-- PHOTOSTRIPS -->
+<!-- ================= PHOTOSTRIPS ================= -->
 <div class="section">
 <h2>Photostrips</h2>
 <div class="grid">
-<img src="images/Photostrips/PhotoStrips.jpg">
-<img src="images/Photostrips/PhotoStrips1.jpg">
+<imgBox src="images/Photostrips/PhotoStrips.jpg"/>
+<imgBox src="images/Photostrips/PhotoStrips1.jpg"/>
 </div>
+<button class="message-btn" onclick="window.open('https://m.me/61579128398313')">Message to Order 💜</button>
 </div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <div class="blur-bg"></div>
+  <span class="close-btn" onclick="closeLightbox()">✕</span>
+  <button class="nav-btn left" onclick="prevImage()">‹</button>
+  <img id="lightbox-img">
+  <button class="nav-btn right" onclick="nextImage()">›</button>
+</div>
+
+<script>
+
+/* Replace imgBox shortcut */
+document.querySelectorAll("imgBox").forEach(el=>{
+  const src = el.getAttribute("src");
+  el.outerHTML = `
+  <div class="image-box">
+    <img src="${src}">
+    <div class="price">See Price</div>
+  </div>`;
+});
+
+/* Scroll Animation */
+const sections = document.querySelectorAll(".section");
+window.addEventListener("scroll", ()=>{
+  sections.forEach(sec=>{
+    if(sec.getBoundingClientRect().top < window.innerHeight - 100){
+      sec.classList.add("show");
+    }
+  });
+});
+
+/* Lightbox */
+let images = [];
+let currentIndex = 0;
+
+document.querySelectorAll(".image-box img").forEach((img, index)=>{
+  images.push(img.src);
+  img.parentElement.addEventListener("click", ()=>{
+    openLightbox(index);
+  });
+});
+
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+
+function openLightbox(index){
+  currentIndex = index;
+  lightboxImg.src = images[currentIndex];
+  lightbox.style.display = "flex";
+  history.pushState({lightbox:true}, "");
+}
+
+function closeLightbox(){
+  lightbox.style.display = "none";
+  history.back();
+}
+
+function nextImage(){
+  currentIndex = (currentIndex + 1) % images.length;
+  lightboxImg.src = images[currentIndex];
+}
+
+function prevImage(){
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  lightboxImg.src = images[currentIndex];
+}
+
+/* Swipe */
+let startX = 0;
+lightbox.addEventListener("touchstart", e=>{
+  startX = e.touches[0].clientX;
+});
+lightbox.addEventListener("touchend", e=>{
+  let endX = e.changedTouches[0].clientX;
+  if(endX < startX - 50) nextImage();
+  if(endX > startX + 50) prevImage();
+});
+
+/* Back Button */
+window.addEventListener("popstate", ()=>{
+  lightbox.style.display = "none";
+});
+
+</script>
 
 </body>
 </html>
