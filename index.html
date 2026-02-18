@@ -400,7 +400,8 @@ let count=0;
 const q=query(collection(db,"reviews"),orderBy("createdAt","desc"));
 const snapshot=await getDocs(q);
 
-snapshot.forEach(doc=>{
+let docs = snapshot.docs.slice(0,3); // only latest 3
+docs.forEach(doc=>{
 const review=doc.data();
 total+=review.rating;
 count++;
