@@ -14,7 +14,7 @@
   padding:0;
   box-sizing:border-box;
   font-family:'Poppins',sans-serif;
-  transition:background 0.3s ease, color 0.3s ease;
+  transition:0.3s;
 }
 
 body{
@@ -23,7 +23,6 @@ body{
 }
 
 /* NAVBAR */
-
 nav{
   background:white;
   padding:15px 20px;
@@ -63,11 +62,9 @@ nav a{
   padding:6px 14px;
   border-radius:20px;
   cursor:pointer;
-  font-weight:600;
 }
 
 /* HERO */
-
 .hero{
   background:linear-gradient(135deg,#6a00f4,#9d4edd);
   color:white;
@@ -76,29 +73,19 @@ nav a{
 }
 
 .hero h1{
-  font-size:38px;
-  font-weight:800;
-  margin-bottom:20px;
-}
-
-.hero p{
-  max-width:500px;
-  margin:auto;
-  line-height:1.6;
-  font-size:16px;
+  font-size:36px;
+  margin-bottom:15px;
 }
 
 /* PRODUCTS */
-
 .products{
   padding:60px 20px;
+  text-align:center;
 }
 
 .products h2{
-  text-align:center;
   color:#6a00f4;
   margin-bottom:40px;
-  font-size:26px;
 }
 
 .grid{
@@ -122,42 +109,43 @@ nav a{
 
 .product h3{
   margin-top:10px;
-  font-size:16px;
-  text-align:center;
   color:#6a00f4;
 }
 
 .product p{
   font-size:13px;
   padding:0 15px 15px;
-  text-align:center;
-  color:#666;
+  color:#555;
+}
+
+.view-btn{
+  background:#6a00f4;
+  color:white;
+  padding:14px 30px;
+  border-radius:30px;
+  text-decoration:none;
+  display:inline-block;
+  margin-top:40px;
 }
 
 /* REVIEWS */
-
 .reviews-section{
   padding:60px 20px;
   text-align:center;
 }
 
-.reviews-section h2{
-  color:#6a00f4;
-  margin-bottom:20px;
-}
-
 .average-box{
-  font-size:22px;
+  font-size:20px;
   font-weight:600;
   color:#6a00f4;
-  margin-bottom:30px;
+  margin:20px 0;
 }
 
 .reviews-grid{
   display:grid;
   gap:20px;
   max-width:900px;
-  margin:0 auto 40px;
+  margin:0 auto 30px;
 }
 
 .review-card{
@@ -169,7 +157,6 @@ nav a{
 
 .review-card h4{
   color:#6a00f4;
-  margin-bottom:8px;
 }
 
 .review-form{
@@ -191,14 +178,30 @@ nav a{
   padding:12px;
   border:none;
   border-radius:25px;
-  background:linear-gradient(45deg,#6a00f4,#9d4edd);
+  background:#6a00f4;
   color:white;
   font-weight:600;
   cursor:pointer;
 }
 
+.view-all-btn{
+  background:#6a00f4;
+  color:white;
+  padding:10px 24px;
+  border-radius:25px;
+  text-decoration:none;
+  display:inline-block;
+  margin-bottom:20px;
+}
+
+.stars{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+}
+
 .stars span{
-  font-size:24px;
+  font-size:22px;
   cursor:pointer;
   opacity:0.4;
 }
@@ -208,23 +211,21 @@ nav a{
 }
 
 /* FOOTER */
-
 footer{
   background:#6a00f4;
   color:white;
   text-align:center;
-  padding:30px 20px;
-  margin-top:60px;
+  padding:30px;
 }
 
 /* DARK MODE */
-
 body.dark{
   background:#121212;
   color:#f1f1f1;
 }
 
-body.dark nav{
+body.dark nav,
+body.dark footer{
   background:#1e1e1e;
 }
 
@@ -233,18 +234,9 @@ body.dark .review-card{
   background:#1f1f1f;
 }
 
-body.dark .product p{
-  color:#bbb;
-}
-
-body.dark footer{
-  background:#1e1e1e;
-}
-
 @media(max-width:600px){
   nav{
     flex-direction:column;
-    align-items:flex-start;
     gap:10px;
   }
 }
@@ -265,79 +257,75 @@ body.dark footer{
 
 <section class="hero">
   <h1>Handmade Gifts That Speak Love 💜</h1>
-  <p>Create unforgettable memories with our custom crafts made with heart.</p>
+  <p>Beautiful custom creations made with passion and creativity.</p>
 </section>
 
 <section class="products">
-  <h2>Our Best Sellers ✨</h2>
+  <h2>Our Products ✨</h2>
+
   <div class="grid">
+
     <div class="product">
       <img src="images/bouquet/Bouquet.jpg">
       <h3>Fuzzywire Bouquet</h3>
-      <p>Handmade fuzzy wire bouquet for special moments.</p>
+      <p>Handmade fuzzy wire flower bouquet perfect for birthdays, anniversaries and surprises.</p>
     </div>
+
     <div class="product">
       <img src="images/polaroid/Polaroid.jpg">
       <h3>Polaroid Prints</h3>
-      <p>High-quality printed polaroids.</p>
+      <p>High-quality polaroid photo prints to capture and preserve your special memories.</p>
     </div>
+
+    <div class="product">
+      <img src="images/box set/Box set.jpg">
+      <h3>Polaroid Box Set</h3>
+      <p>45-piece polaroid print collection with custom box packaging.</p>
+    </div>
+
     <div class="product">
       <img src="images/bracelet/Bracelet.jpg">
       <h3>Bracelet</h3>
-      <p>Customized beaded bracelets.</p>
-    </div>
-  </div>
-</section>
-
-<!-- REVIEWS -->
-<section class="reviews-section">
-  <h2>Customer Feedback 💜</h2>
-  <div class="average-box">
-    <span id="averageRating">0.0</span> ⭐
-    <p>Average Rating</p>
-  </div>
-
-  <div id="reviewsContainer" class="reviews-grid"></div>
-
-  <h3>Leave a Review ✨</h3>
-  <form id="reviewForm" class="review-form">
-    <input type="text" id="name" placeholder="Your Name" required>
-
-    <div class="stars">
-      <span data-value="1">⭐</span>
-      <span data-value="2">⭐</span>
-      <span data-value="3">⭐</span>
-      <span data-value="4">⭐</span>
-      <span data-value="5">⭐</span>
+      <p>Customized beaded bracelets for couples, friends and loved ones.</p>
     </div>
 
-    <textarea id="reviewText" placeholder="Write your review..." required></textarea>
-    <button type="submit">Submit Review 💜</button>
-  </form>
+    <div class="product">
+      <img src="images/keychain/Keychain.jpg">
+      <h3>Keychain</h3>
+      <p>Personalized photo keychains you can bring anywhere.</p>
+    </div>
+
+    <div class="product">
+      <img src="images/frame/Frame.jpg">
+      <h3>Photo Frame</h3>
+      <p>Spotify-inspired personalized music photo frame gift.</p>
+    </div>
+
+    <div class="product">
+      <img src="images/Photostrips/PhotoStrips.jpg">
+      <h3>Photostrips</h3>
+      <p>Mini photo booth style strips perfect for cute memories.</p>
+    </div>
+
+  </div>
+
+  <a href="products.html" class="view-btn">View All Products 💜</a>
+
 </section>
 
 <footer>
   <p>Made with 💜 by Print & Craft</p>
 </footer>
 
-<!-- DARK MODE SCRIPT -->
 <script>
-const toggle = document.getElementById("darkToggle");
-
-if(localStorage.getItem("darkMode") === "enabled"){
-  document.body.classList.add("dark");
-  toggle.textContent = "☀️";
+const toggle=document.getElementById("darkToggle");
+if(localStorage.getItem("darkMode")==="enabled"){
+document.body.classList.add("dark");
 }
-
 toggle.addEventListener("click",()=>{
-  document.body.classList.toggle("dark");
-  if(document.body.classList.contains("dark")){
-    localStorage.setItem("darkMode","enabled");
-    toggle.textContent="☀️";
-  }else{
-    localStorage.setItem("darkMode","disabled");
-    toggle.textContent="🌙";
-  }
+document.body.classList.toggle("dark");
+localStorage.setItem("darkMode",
+document.body.classList.contains("dark")?"enabled":"disabled");
 });
 </script>
 
