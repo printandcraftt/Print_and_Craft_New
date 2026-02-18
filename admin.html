@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | Print & Craft 💜</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:#f5f0ff;
+  color:#333;
+}
+
+/* NAV */
+nav{
+  background:white;
+  padding:15px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
+
+.logo{
+  font-weight:800;
+  color:#6a00f4;
+}
+
+nav a{
+  text-decoration:none;
+  color:#6a00f4;
+  font-weight:600;
+}
+
+/* LOGIN BOX */
+.login-box{
+  max-width:350px;
+  margin:100px auto;
+  background:white;
+  padding:30px;
+  border-radius:15px;
+  text-align:center;
+  box-shadow:0 10px 25px rgba(0,0,0,.1);
+}
+
+.login-box input{
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  margin:15px 0;
+}
+
+.login-box button{
+  padding:10px 20px;
+  border:none;
+  border-radius:25px;
+  background:#6a00f4;
+  color:white;
+  cursor:pointer;
+}
+
+/* DASHBOARD */
+.dashboard{
+  display:none;
+  padding:40px 20px;
+  text-align:center;
+}
+
+.dashboard h2{
+  color:#6a00f4;
+  margin-bottom:20px;
+}
+
+.winner-count{
+  font-size:20px;
+  font-weight:600;
+  margin-bottom:30px;
+}
+
+.winners-grid{
+  max-width:900px;
+  margin:0 auto;
+  display:grid;
+  gap:20px;
+}
+
+.winner-card{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.winner-card h4{
+  color:#6a00f4;
+  margin-bottom:8px;
+}
+
+/* DARK MODE */
+body.dark{
+  background:#121212;
+  color:#f1f1f1;
+}
+
+body.dark nav{
+  background:#1e1e1e;
+}
+
+body.dark .login-box,
+body.dark .winner-card{
+  background:#1f1f1f;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">Print & Craft 💜 Admin</div>
+  <a href="index.html">Back to Site</a>
+</nav>
+
+<!-- LOGIN -->
+<div class="login-box" id="loginBox">
+  <h2>Admin Login 🔐</h2>
+  <input type="password" id="adminPassword" placeholder="Enter Admin Password">
+  <button onclick="checkPassword()">Login</button>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+  <h2>Promo Winners 🎉</h2>
+  <div class="winner-count">
+    Total Winners: <span id="winnerTotal">0</span>
+  </div>
+
+  <div class="winners-grid" id="winnersContainer"></div>
+</div>
+
+<script type="module">
+
+/* ================= FIREBASE ================= */
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { getFirestore, collection, getDocs, query, orderBy } 
+from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+/* SAME CONFIG AS INDEX */
+const firebaseConfig = {
+  apiKey: "AIzaSyCCMd6565SLeJx0zCM5h8bkj5UzSBZeQcA",
+  authDomain: "print-craft-9d708.firebaseapp.com",
+  projectId: "print-craft-9d708",
+  storageBucket: "print-craft-9d708.firebasestorage.app",
+  messagingSenderId: "873230926106",
+  appId: "1:873230926106:web:464e08d3ce7d111b6aeca3"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+/* ================= PASSWORD PROTECTION ================= */
+
+/* CHANGE THIS PASSWORD */
+const ADMIN_PASSWORD = "printcraft2026";
+
+window.checkPassword = function(){
+
+  const input = document.getElementById("adminPassword").value;
+
+  if(input === ADMIN_PASSWORD){
+
+    document.getElementById("loginBox").style.display="none";
+    document.getElementById("dashboard").style.display="block";
+
+    loadWinners();
+
+  }else{
+    alert("Wrong Password ❌");
+  }
+}
+
+/* ================= LOAD WINNERS ================= */
+
+async function loadWinners(){
+
+  const container = document.getElementById("winnersContainer");
+  container.innerHTML = "";
+
+  const q = query(collection(db,"winners"), orderBy("createdAt","desc"));
+  const snapshot = await getDocs(q);
+
+  let count = 0;
+
+  snapshot.forEach(doc=>{
+    const data = doc.data();
+    count++;
+
+    container.innerHTML += `
+      <div class="winner-card">
+        <h4>Code: ${data.code}</h4>
+        <p>Discount: ${data.discount}</p>
+        <p>Date: ${new Date(data.createdAt.seconds * 1000).toLocaleString()}</p>
+      </div>
+    `;
+  });
+
+  document.getElementById("winnerTotal").innerText = count;
+}
+
+</script>
+
+</body>
+</html>
