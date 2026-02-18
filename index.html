@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
-
 *{
   margin:0;
   padding:0;
@@ -241,10 +240,8 @@ body.dark .review-card{
     gap:10px;
   }
 }
-
 </style>
 </head>
-
 <body>
 
 <nav>
@@ -264,6 +261,7 @@ body.dark .review-card{
   <h2>Our Products ✨</h2>
 
   <div class="grid">
+
     <div class="product">
       <img src="images/bouquet/Bouquet.jpg">
       <h3>Fuzzywire Bouquet</h3>
@@ -305,13 +303,11 @@ body.dark .review-card{
       <h3>Photostrips</h3>
       <p>Mini photo booth strips perfect for cute memories.</p>
     </div>
+
   </div>
 
   <a href="products.html" class="view-btn">View All Products 💜</a>
-
 </section>
-
-<!-- REVIEWS SECTION -->
 <section class="reviews-section">
   <h2>Customer Feedback 💜</h2>
 
@@ -338,7 +334,6 @@ body.dark .review-card{
     </div>
 
     <textarea id="reviewText" placeholder="Write your review..." required></textarea>
-
     <button type="submit">Submit Review 💜</button>
   </form>
 </section>
@@ -347,7 +342,24 @@ body.dark .review-card{
   <p>Made with 💜 by Print & Craft</p>
 </footer>
 
-<script>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy } 
+from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCCMd6565SLeJx0zCM5h8bkj5UzSBZeQcA",
+  authDomain: "print-craft-9d708.firebaseapp.com",
+  projectId: "print-craft-9d708",
+  storageBucket: "print-craft-9d708.firebasestorage.app",
+  messagingSenderId: "873230926106",
+  appId: "1:873230926106:web:464e08d3ce7d111b6aeca3",
+  measurementId: "G-C5KK67X7TM"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 /* DARK MODE */
 const toggle=document.getElementById("darkToggle");
@@ -362,7 +374,6 @@ document.body.classList.contains("dark")?"enabled":"disabled");
 
 /* REVIEW SYSTEM */
 let selectedRating=0;
-let reviews=JSON.parse(localStorage.getItem("reviews"))||[];
 const stars=document.querySelectorAll(".stars span");
 
 stars.forEach(star=>{
@@ -380,13 +391,20 @@ if(name.length<=2) return name;
 return name.substring(0,2)+"****";
 }
 
-function displayReviews(){
+async function loadReviews(){
 const container=document.getElementById("reviewsContainer");
 container.innerHTML="";
 let total=0;
+let count=0;
 
-reviews.slice(-3).reverse().forEach(review=>{
+const q=query(collection(db,"reviews"),orderBy("createdAt","desc"));
+const snapshot=await getDocs(q);
+
+snapshot.forEach(doc=>{
+const review=doc.data();
 total+=review.rating;
+count++;
+
 container.innerHTML+=`
 <div class="review-card">
 <h4>${maskName(review.name)}</h4>
@@ -396,15 +414,14 @@ container.innerHTML+=`
 `;
 });
 
-if(reviews.length>0){
-let avg=reviews.reduce((a,b)=>a+b.rating,0)/reviews.length;
-document.getElementById("averageRating").innerText=avg.toFixed(1);
+if(count>0){
+document.getElementById("averageRating").innerText=(total/count).toFixed(1);
 }
 }
 
-displayReviews();
+loadReviews();
 
-document.getElementById("reviewForm").addEventListener("submit",function(e){
+document.getElementById("reviewForm").addEventListener("submit",async function(e){
 e.preventDefault();
 
 if(selectedRating==0){
@@ -412,17 +429,17 @@ alert("Please select rating");
 return;
 }
 
-reviews.push({
+await addDoc(collection(db,"reviews"),{
 name:document.getElementById("name").value,
 rating:parseInt(selectedRating),
-text:document.getElementById("reviewText").value
+text:document.getElementById("reviewText").value,
+createdAt:new Date()
 });
 
-localStorage.setItem("reviews",JSON.stringify(reviews));
 document.getElementById("reviewForm").reset();
 stars.forEach(s=>s.classList.remove("active"));
 selectedRating=0;
-displayReviews();
+loadReviews();
 });
 
 </script>
