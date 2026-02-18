@@ -72,11 +72,6 @@ nav a{
   padding:80px 20px;
 }
 
-.hero h1{
-  font-size:36px;
-  margin-bottom:15px;
-}
-
 /* PRODUCTS */
 .products{
   padding:60px 20px;
@@ -132,13 +127,19 @@ nav a{
 .reviews-section{
   padding:60px 20px;
   text-align:center;
+  background:#fff;
+}
+
+.reviews-section h2{
+  color:#6a00f4;
+  margin-bottom:10px;
 }
 
 .average-box{
   font-size:20px;
   font-weight:600;
   color:#6a00f4;
-  margin:20px 0;
+  margin-bottom:20px;
 }
 
 .reviews-grid{
@@ -149,10 +150,10 @@ nav a{
 }
 
 .review-card{
-  background:white;
+  background:#f5f0ff;
   padding:20px;
   border-radius:15px;
-  box-shadow:0 10px 20px rgba(0,0,0,.08);
+  box-shadow:0 8px 18px rgba(0,0,0,.08);
 }
 
 .review-card h4{
@@ -257,60 +258,89 @@ body.dark .review-card{
 
 <section class="hero">
   <h1>Handmade Gifts That Speak Love 💜</h1>
-  <p>Beautiful custom creations made with passion and creativity.</p>
 </section>
 
 <section class="products">
   <h2>Our Products ✨</h2>
 
   <div class="grid">
-
     <div class="product">
       <img src="images/bouquet/Bouquet.jpg">
       <h3>Fuzzywire Bouquet</h3>
-      <p>Handmade fuzzy wire flower bouquet perfect for birthdays, anniversaries and surprises.</p>
+      <p>Handmade fuzzy wire flower bouquet perfect for special occasions.</p>
     </div>
 
     <div class="product">
       <img src="images/polaroid/Polaroid.jpg">
       <h3>Polaroid Prints</h3>
-      <p>High-quality polaroid photo prints to capture and preserve your special memories.</p>
+      <p>High-quality polaroid prints for your memories.</p>
     </div>
 
     <div class="product">
       <img src="images/box set/Box set.jpg">
       <h3>Polaroid Box Set</h3>
-      <p>45-piece polaroid print collection with custom box packaging.</p>
+      <p>Complete 45-piece polaroid collection in a custom box.</p>
     </div>
 
     <div class="product">
       <img src="images/bracelet/Bracelet.jpg">
       <h3>Bracelet</h3>
-      <p>Customized beaded bracelets for couples, friends and loved ones.</p>
+      <p>Customized beaded bracelets for couples and friends.</p>
     </div>
 
     <div class="product">
       <img src="images/keychain/Keychain.jpg">
       <h3>Keychain</h3>
-      <p>Personalized photo keychains you can bring anywhere.</p>
+      <p>Personalized keychains to carry your favorite memory.</p>
     </div>
 
     <div class="product">
       <img src="images/frame/Frame.jpg">
       <h3>Photo Frame</h3>
-      <p>Spotify-inspired personalized music photo frame gift.</p>
+      <p>Spotify-style music photo frame gift idea.</p>
     </div>
 
     <div class="product">
       <img src="images/Photostrips/PhotoStrips.jpg">
       <h3>Photostrips</h3>
-      <p>Mini photo booth style strips perfect for cute memories.</p>
+      <p>Mini photo booth strips perfect for cute memories.</p>
     </div>
-
   </div>
 
   <a href="products.html" class="view-btn">View All Products 💜</a>
 
+</section>
+
+<!-- REVIEWS SECTION -->
+<section class="reviews-section">
+  <h2>Customer Feedback 💜</h2>
+
+  <div class="average-box">
+    <span id="averageRating">0.0</span> ⭐
+    <p>Average Rating</p>
+  </div>
+
+  <div id="reviewsContainer" class="reviews-grid"></div>
+
+  <a href="reviews.html" class="view-all-btn">View All Reviews 💜</a>
+
+  <h3>Leave a Review ✨</h3>
+
+  <form id="reviewForm" class="review-form">
+    <input type="text" id="name" placeholder="Your Name" required>
+
+    <div class="stars">
+      <span data-value="1">⭐</span>
+      <span data-value="2">⭐</span>
+      <span data-value="3">⭐</span>
+      <span data-value="4">⭐</span>
+      <span data-value="5">⭐</span>
+    </div>
+
+    <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+
+    <button type="submit">Submit Review 💜</button>
+  </form>
 </section>
 
 <footer>
@@ -318,6 +348,8 @@ body.dark .review-card{
 </footer>
 
 <script>
+
+/* DARK MODE */
 const toggle=document.getElementById("darkToggle");
 if(localStorage.getItem("darkMode")==="enabled"){
 document.body.classList.add("dark");
@@ -327,6 +359,72 @@ document.body.classList.toggle("dark");
 localStorage.setItem("darkMode",
 document.body.classList.contains("dark")?"enabled":"disabled");
 });
+
+/* REVIEW SYSTEM */
+let selectedRating=0;
+let reviews=JSON.parse(localStorage.getItem("reviews"))||[];
+const stars=document.querySelectorAll(".stars span");
+
+stars.forEach(star=>{
+star.addEventListener("click",()=>{
+selectedRating=star.dataset.value;
+stars.forEach(s=>s.classList.remove("active"));
+for(let i=0;i<selectedRating;i++){
+stars[i].classList.add("active");
+}
+});
+});
+
+function maskName(name){
+if(name.length<=2) return name;
+return name.substring(0,2)+"****";
+}
+
+function displayReviews(){
+const container=document.getElementById("reviewsContainer");
+container.innerHTML="";
+let total=0;
+
+reviews.slice(-3).reverse().forEach(review=>{
+total+=review.rating;
+container.innerHTML+=`
+<div class="review-card">
+<h4>${maskName(review.name)}</h4>
+<p>${"⭐".repeat(review.rating)}</p>
+<p>${review.text}</p>
+</div>
+`;
+});
+
+if(reviews.length>0){
+let avg=reviews.reduce((a,b)=>a+b.rating,0)/reviews.length;
+document.getElementById("averageRating").innerText=avg.toFixed(1);
+}
+}
+
+displayReviews();
+
+document.getElementById("reviewForm").addEventListener("submit",function(e){
+e.preventDefault();
+
+if(selectedRating==0){
+alert("Please select rating");
+return;
+}
+
+reviews.push({
+name:document.getElementById("name").value,
+rating:parseInt(selectedRating),
+text:document.getElementById("reviewText").value
+});
+
+localStorage.setItem("reviews",JSON.stringify(reviews));
+document.getElementById("reviewForm").reset();
+stars.forEach(s=>s.classList.remove("active"));
+selectedRating=0;
+displayReviews();
+});
+
 </script>
 
 </body>
