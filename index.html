@@ -22,7 +22,7 @@ body{
   color:#333;
 }
 
-/* ================= NAVBAR ================= */
+/* NAVBAR */
 
 nav{
   background:white;
@@ -56,7 +56,6 @@ nav a{
   font-size:14px;
 }
 
-/* Dark toggle button */
 #darkToggle{
   background:#6a00f4;
   color:white;
@@ -67,7 +66,7 @@ nav a{
   font-weight:600;
 }
 
-/* ================= HERO ================= */
+/* HERO */
 
 .hero{
   background:linear-gradient(135deg,#6a00f4,#9d4edd);
@@ -89,7 +88,7 @@ nav a{
   font-size:16px;
 }
 
-/* ================= PRODUCTS ================= */
+/* PRODUCTS */
 
 .products{
   padding:60px 20px;
@@ -113,11 +112,6 @@ nav a{
   border-radius:15px;
   overflow:hidden;
   box-shadow:0 10px 25px rgba(0,0,0,0.08);
-  transition:0.3s;
-}
-
-.product:hover{
-  transform:translateY(-5px);
 }
 
 .product img{
@@ -138,28 +132,82 @@ nav a{
   padding:0 15px 15px;
   text-align:center;
   color:#666;
-  line-height:1.4;
 }
 
-/* ================= BUTTON ================= */
+/* REVIEWS */
 
-.view-btn{
-  background:#6a00f4;
-  color:white;
-  padding:14px 30px;
-  border-radius:30px;
-  text-decoration:none;
+.reviews-section{
+  padding:60px 20px;
+  text-align:center;
+}
+
+.reviews-section h2{
+  color:#6a00f4;
+  margin-bottom:20px;
+}
+
+.average-box{
+  font-size:22px;
   font-weight:600;
-  display:inline-block;
-  transition:0.3s;
+  color:#6a00f4;
+  margin-bottom:30px;
 }
 
-.view-btn:hover{
-  background:#4b00b5;
-  transform:translateY(-3px);
+.reviews-grid{
+  display:grid;
+  gap:20px;
+  max-width:900px;
+  margin:0 auto 40px;
 }
 
-/* ================= FOOTER ================= */
+.review-card{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 10px 20px rgba(0,0,0,.08);
+}
+
+.review-card h4{
+  color:#6a00f4;
+  margin-bottom:8px;
+}
+
+.review-form{
+  max-width:400px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.review-form input,
+.review-form textarea{
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #ddd;
+}
+
+.review-form button{
+  padding:12px;
+  border:none;
+  border-radius:25px;
+  background:linear-gradient(45deg,#6a00f4,#9d4edd);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.stars span{
+  font-size:24px;
+  cursor:pointer;
+  opacity:0.4;
+}
+
+.stars span.active{
+  opacity:1;
+}
+
+/* FOOTER */
 
 footer{
   background:#6a00f4;
@@ -169,11 +217,7 @@ footer{
   margin-top:60px;
 }
 
-footer p{
-  font-size:14px;
-}
-
-/* ================= DARK MODE ================= */
+/* DARK MODE */
 
 body.dark{
   background:#121212;
@@ -184,7 +228,8 @@ body.dark nav{
   background:#1e1e1e;
 }
 
-body.dark .product{
+body.dark .product,
+body.dark .review-card{
   background:#1f1f1f;
 }
 
@@ -192,42 +237,16 @@ body.dark .product p{
   color:#bbb;
 }
 
-body.dark .products h2,
-body.dark .product h3{
-  color:#bb86fc;
-}
-
 body.dark footer{
   background:#1e1e1e;
 }
 
-/* ================= MOBILE FIX ================= */
-
 @media(max-width:600px){
-
   nav{
     flex-direction:column;
     align-items:flex-start;
     gap:10px;
   }
-
-  nav ul{
-    width:100%;
-    justify-content:space-between;
-  }
-
-  .hero h1{
-    font-size:26px;
-  }
-
-  .hero p{
-    font-size:14px;
-  }
-
-  .product img{
-    height:170px;
-  }
-
 }
 
 </style>
@@ -235,7 +254,6 @@ body.dark footer{
 
 <body>
 
-<!-- NAVIGATION -->
 <nav>
   <div class="logo">Print & Craft 💜</div>
   <ul>
@@ -245,74 +263,67 @@ body.dark footer{
   </ul>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <h1>Handmade Gifts That Speak Love 💜</h1>
-  <p>
-    Create unforgettable memories with our custom crafts,
-    polaroids, bouquets and creative keepsakes made with heart and passion.
-  </p>
+  <p>Create unforgettable memories with our custom crafts made with heart.</p>
 </section>
 
-<!-- PRODUCTS -->
 <section class="products">
   <h2>Our Best Sellers ✨</h2>
-
   <div class="grid">
-
     <div class="product">
       <img src="images/bouquet/Bouquet.jpg">
       <h3>Fuzzywire Bouquet</h3>
-      <p>Handmade fuzzy wire flower bouquet perfect for gifts and surprises.</p>
+      <p>Handmade fuzzy wire bouquet for special moments.</p>
     </div>
-
     <div class="product">
       <img src="images/polaroid/Polaroid.jpg">
       <h3>Polaroid Prints</h3>
-      <p>High-quality printed polaroid photos for memories that last forever.</p>
+      <p>High-quality printed polaroids.</p>
     </div>
-
-    <div class="product">
-      <img src="images/Photostrips/PhotoStrips.jpg">
-      <h3>Photostrips</h3>
-      <p>Mini photo strips inspired by photo booth style moments.</p>
-    </div>
-
     <div class="product">
       <img src="images/bracelet/Bracelet.jpg">
       <h3>Bracelet</h3>
-      <p>Customized beaded bracelets for couples and loved ones.</p>
+      <p>Customized beaded bracelets.</p>
     </div>
-
-    <div class="product">
-      <img src="images/frame/Frame.jpg">
-      <h3>Photo Frame</h3>
-      <p>Personalized music photo frame with Spotify-style design.</p>
-    </div>
-
-    <div class="product">
-      <img src="images/keychain/Keychain.jpg">
-      <h3>Keychain</h3>
-      <p>Custom photo keychains to carry your favorite memories anywhere.</p>
-    </div>
-
   </div>
-
-  <div style="text-align:center; margin-top:40px;">
-    <a href="products.html" class="view-btn">View All Products 💜</a>
-  </div>
-
 </section>
 
-<!-- FOOTER -->
+<!-- REVIEWS -->
+<section class="reviews-section">
+  <h2>Customer Feedback 💜</h2>
+  <div class="average-box">
+    <span id="averageRating">0.0</span> ⭐
+    <p>Average Rating</p>
+  </div>
+
+  <div id="reviewsContainer" class="reviews-grid"></div>
+
+  <h3>Leave a Review ✨</h3>
+  <form id="reviewForm" class="review-form">
+    <input type="text" id="name" placeholder="Your Name" required>
+
+    <div class="stars">
+      <span data-value="1">⭐</span>
+      <span data-value="2">⭐</span>
+      <span data-value="3">⭐</span>
+      <span data-value="4">⭐</span>
+      <span data-value="5">⭐</span>
+    </div>
+
+    <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+    <button type="submit">Submit Review 💜</button>
+  </form>
+</section>
+
 <footer>
   <p>Made with 💜 by Print & Craft</p>
 </footer>
 
+<!-- DARK MODE SCRIPT -->
 <script>
 const toggle = document.getElementById("darkToggle");
 
-// Load saved mode
 if(localStorage.getItem("darkMode") === "enabled"){
   document.body.classList.add("dark");
   toggle.textContent = "☀️";
@@ -320,13 +331,12 @@ if(localStorage.getItem("darkMode") === "enabled"){
 
 toggle.addEventListener("click",()=>{
   document.body.classList.toggle("dark");
-
   if(document.body.classList.contains("dark")){
     localStorage.setItem("darkMode","enabled");
-    toggle.textContent = "☀️";
+    toggle.textContent="☀️";
   }else{
     localStorage.setItem("darkMode","disabled");
-    toggle.textContent = "🌙";
+    toggle.textContent="🌙";
   }
 });
 </script>
