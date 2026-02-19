@@ -19,6 +19,7 @@ transition:.3s;
 body{
 background:#f5f0ff;
 color:#333;
+overflow-x:hidden;
 }
 
 /* NAV */
@@ -84,7 +85,7 @@ margin-bottom:40px;
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
 gap:20px;
 }
 
@@ -126,12 +127,7 @@ margin-top:40px;
 .reviews-section{
 padding:60px 20px;
 text-align:center;
-background:#fff;
-}
-
-.reviews-grid{
-max-width:900px;
-margin:0 auto;
+background:white;
 }
 
 .review-card{
@@ -139,31 +135,6 @@ background:#f5f0ff;
 padding:20px;
 border-radius:15px;
 margin-bottom:20px;
-}
-
-.review-form{
-max-width:400px;
-margin:30px auto 0;
-display:flex;
-flex-direction:column;
-gap:15px;
-}
-
-.review-form input,
-.review-form textarea{
-padding:12px;
-border-radius:10px;
-border:1px solid #ddd;
-}
-
-.review-form button{
-padding:12px;
-border:none;
-border-radius:25px;
-background:#6a00f4;
-color:white;
-font-weight:600;
-cursor:pointer;
 }
 
 .stars{
@@ -175,7 +146,7 @@ gap:8px;
 .stars span{
 font-size:22px;
 cursor:pointer;
-opacity:.4;
+opacity:0.4;
 }
 
 .stars span.active{
@@ -183,74 +154,92 @@ opacity:1;
 }
 
 /* PROMO */
-.promo-popup{
+.promo-overlay{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.7);
-display:none;
+background:rgba(0,0,0,0.6);
+display:flex;
 justify-content:center;
 align-items:center;
-z-index:99999;
+z-index:9999;
 }
 
 .promo-box{
 background:white;
-padding:30px;
+width:340px;
+padding:25px;
 border-radius:20px;
 text-align:center;
-width:340px;
 position:relative;
 }
 
 .close-btn{
 position:absolute;
-top:10px;
 right:15px;
+top:10px;
 font-size:22px;
 cursor:pointer;
 color:#6a00f4;
+}
+
+.pointer{
+width:0;
+height:0;
+border-left:12px solid transparent;
+border-right:12px solid transparent;
+border-bottom:18px solid #ff006e;
+margin:0 auto 10px;
 }
 
 .wheel{
 width:240px;
 height:240px;
 border-radius:50%;
-margin:20px auto;
+margin:10px auto;
 border:6px solid #6a00f4;
-background:conic-gradient(
-#6a00f4 0deg 90deg,
-#bb86fc 90deg 180deg,
-#9d4edd 180deg 270deg,
-#e0aaff 270deg 360deg
-);
 position:relative;
-transition:transform 4s ease-out;
+transition:transform 4s cubic-bezier(.17,.67,.83,.67);
+background:conic-gradient(
+#ff4d6d 0deg 72deg,
+#6a00f4 72deg 144deg,
+#ff4d6d 144deg 216deg,
+#6a00f4 216deg 288deg,
+#ff4d6d 288deg 360deg
+);
 }
 
-.wheel div{
+.wheel span{
 position:absolute;
-width:100%;
-text-align:center;
-top:50%;
-left:50%;
-transform-origin:center;
 color:white;
+font-weight:700;
+font-size:14px;
+transform-origin:50% 100%;
+left:50%;
+top:50%;
+}
+
+.result-box{
+margin-top:15px;
 font-weight:600;
 }
 
-.label1{ transform:rotate(45deg) translate(-50%,-100px); }
-.label2{ transform:rotate(135deg) translate(-50%,-100px); }
-.label3{ transform:rotate(225deg) translate(-50%,-100px); }
-.label4{ transform:rotate(315deg) translate(-50%,-100px); }
-
 #spinBtn{
-padding:10px 25px;
+margin-top:10px;
+padding:10px 20px;
 border:none;
 border-radius:25px;
 background:#6a00f4;
 color:white;
-font-weight:600;
 cursor:pointer;
+font-weight:600;
+}
+
+footer{
+background:#6a00f4;
+color:white;
+text-align:center;
+padding:30px;
+margin-top:60px;
 }
 
 /* DARK MODE */
@@ -259,54 +248,36 @@ background:#121212;
 color:#f1f1f1;
 }
 body.dark nav,
-body.dark .reviews-section{
+body.dark footer{
 background:#1e1e1e;
 }
 body.dark .product,
-body.dark .review-card{
+body.dark .review-card,
+body.dark .reviews-section{
 background:#1f1f1f;
-color:white;
-}
-body.dark input,
-body.dark textarea{
-background:#1f1f1f;
-color:white;
-border:1px solid #444;
-}
-
-/* MOBILE */
-@media(max-width:768px){
-.grid{
-grid-template-columns:repeat(2,1fr);
-}
-.product img{
-height:150px;
-}
-.promo-box{
-width:90%;
-}
+color:#fff;
 }
 </style>
 </head>
 <body>
-<!-- ================= NAVIGATION ================= -->
+<!-- NAVIGATION -->
 <nav>
   <div class="logo">Print & Craft 💜</div>
   <ul>
     <li><a href="products.html">Products</a></li>
     <li><a href="reviews.html">All Reviews</a></li>
-    <li><a href="admin.html">Admin</a></li>
+    <li><button onclick="openPromo()" style="background:#ff006e;color:white;border:none;padding:6px 14px;border-radius:20px;cursor:pointer;">🎁 Spin</button></li>
     <li><button id="darkToggle">🌙</button></li>
   </ul>
 </nav>
 
-<!-- ================= HERO ================= -->
+<!-- HERO -->
 <section class="hero">
   <h1>Handmade Gifts That Speak Love 💜</h1>
   <p>Create unforgettable memories with our custom crafts made with heart and passion.</p>
 </section>
 
-<!-- ================= PRODUCTS ================= -->
+<!-- PRODUCTS -->
 <section class="products">
   <h2>Our Products ✨</h2>
 
@@ -333,7 +304,7 @@ width:90%;
     <div class="product">
       <img src="images/bracelet/Bracelet.jpg">
       <h3>Bracelet</h3>
-      <p>Customized beaded bracelets for couples, friends, and loved ones.</p>
+      <p>Customized beaded bracelets for couples and loved ones.</p>
     </div>
 
     <div class="product">
@@ -359,45 +330,23 @@ width:90%;
   <a href="products.html" class="view-btn">View All Products 💜</a>
 </section>
 
-<!-- ================= PROMO POPUP ================= -->
-<div class="promo-popup" id="promoPopup">
-  <div class="promo-box">
-
-    <div class="close-btn" id="closePromo">✕</div>
-
-    <h3>Spin & Win 🎉</h3>
-
-    <div class="wheel" id="wheel">
-      <div class="label1">5% OFF</div>
-      <div class="label2">10% OFF</div>
-      <div class="label3">20% OFF</div>
-      <div class="label4">LOSE</div>
-    </div>
-
-    <button id="spinBtn">SPIN</button>
-
-    <p id="spinResult" style="margin-top:15px;font-weight:600;"></p>
-
-  </div>
-</div>
-<!-- ================= REVIEWS SECTION ================= -->
+<!-- REVIEWS -->
 <section class="reviews-section">
   <h2>Customer Feedback 💜</h2>
 
-  <div class="average-box">
-    <span id="averageRating">0.0</span> ⭐
-    <p>Average Rating</p>
+  <div style="font-weight:600;margin-bottom:20px;">
+    Average Rating: <span id="averageRating">0.0</span> ⭐
   </div>
 
-  <div id="reviewsContainer" class="reviews-grid"></div>
+  <div id="reviewsContainer"></div>
 
-  <a href="reviews.html" class="view-btn" style="margin-bottom:40px;">View All Reviews 💜</a>
+  <a href="reviews.html" class="view-btn" style="margin-top:20px;">View All Reviews 💜</a>
 
   <h3 style="margin-top:40px;">Leave a Review ✨</h3>
 
-  <form id="reviewForm" class="review-form">
-    <input type="text" id="name" placeholder="Your Name" required>
-
+  <form id="reviewForm" style="max-width:400px;margin:20px auto;display:flex;flex-direction:column;gap:15px;">
+    <input type="text" id="name" placeholder="Your Name" required style="padding:12px;border-radius:10px;border:1px solid #ddd;">
+    
     <div class="stars">
       <span data-value="1">⭐</span>
       <span data-value="2">⭐</span>
@@ -406,19 +355,46 @@ width:90%;
       <span data-value="5">⭐</span>
     </div>
 
-    <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+    <textarea id="reviewText" placeholder="Write your review..." required style="padding:12px;border-radius:10px;border:1px solid #ddd;"></textarea>
 
-    <button type="submit">Submit Review 💜</button>
+    <button type="submit" style="padding:12px;border:none;border-radius:25px;background:#6a00f4;color:white;font-weight:600;">
+      Submit Review 💜
+    </button>
   </form>
 </section>
+
+<!-- PROMO POPUP -->
+<div id="promoPopup" class="promo-overlay" style="display:none;">
+  <div class="promo-box">
+
+    <div class="close-btn" onclick="closePromo()">✕</div>
+
+    <h3>Spin & Win 🎉</h3>
+
+    <div class="pointer"></div>
+
+    <div id="wheel" class="wheel">
+      <!-- Labels -->
+      <span style="transform:rotate(36deg) translateY(-110px);">5% OFF</span>
+      <span style="transform:rotate(108deg) translateY(-110px);">10% OFF</span>
+      <span style="transform:rotate(180deg) translateY(-110px);">LOSE</span>
+      <span style="transform:rotate(252deg) translateY(-110px);">10% OFF</span>
+      <span style="transform:rotate(324deg) translateY(-110px);">20% OFF</span>
+    </div>
+
+    <button id="spinBtn">SPIN</button>
+
+    <div id="resultBox" class="result-box"></div>
+
+  </div>
+</div>
 
 <footer>
   <p>Made with 💜 by Print & Craft</p>
 </footer>
-
-<!-- ================= FIREBASE + MAIN SCRIPT ================= -->
 <script type="module">
 
+/* ================= FIREBASE IMPORT ================= */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
 import { 
   getFirestore, 
@@ -429,6 +405,7 @@ import {
   orderBy 
 } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
+/* ================= FIREBASE CONFIG ================= */
 const firebaseConfig = {
   apiKey: "AIzaSyCCMd6565SLeJx0zCM5h8bkj5UzSBZeQcA",
   authDomain: "print-craft-9d708.firebaseapp.com",
@@ -441,21 +418,20 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-window.db = db;
-
 /* ================= DARK MODE ================= */
-
 const toggle = document.getElementById("darkToggle");
 
-if(localStorage.getItem("darkMode")==="enabled"){
+if(localStorage.getItem("darkMode") === "enabled"){
   document.body.classList.add("dark");
 }
 
 toggle.addEventListener("click",()=>{
   document.body.classList.toggle("dark");
   localStorage.setItem("darkMode",
-    document.body.classList.contains("dark")?"enabled":"disabled");
+    document.body.classList.contains("dark") ? "enabled" : "disabled"
+  );
 });
+
 /* ================= REVIEW SYSTEM ================= */
 
 let selectedRating = 0;
@@ -484,7 +460,11 @@ async function loadReviews(){
   let total = 0;
   let count = 0;
 
-  const q = query(collection(db,"reviews"),orderBy("createdAt","desc"));
+  const q = query(
+    collection(db,"reviews"),
+    orderBy("createdAt","desc")
+  );
+
   const snapshot = await getDocs(q);
 
   const docs = snapshot.docs.slice(0,3);
@@ -495,17 +475,17 @@ async function loadReviews(){
     count++;
 
     container.innerHTML += `
-      <div class="review-card">
-        <h4>${maskName(review.name)}</h4>
+      <div style="background:#f5f0ff;padding:20px;border-radius:15px;margin-bottom:15px;">
+        <h4 style="color:#6a00f4;">${maskName(review.name)}</h4>
         <p>${"⭐".repeat(review.rating)}</p>
         <p>${review.text}</p>
       </div>
     `;
   });
 
-  if(count>0){
+  if(count > 0){
     document.getElementById("averageRating").innerText =
-      (total/count).toFixed(1);
+      (total / count).toFixed(1);
   }
 }
 
@@ -516,7 +496,7 @@ document.getElementById("reviewForm")
 
   e.preventDefault();
 
-  if(selectedRating==0){
+  if(selectedRating == 0){
     alert("Please select rating ⭐");
     return;
   }
@@ -535,29 +515,31 @@ document.getElementById("reviewForm")
   loadReviews();
 });
 
-/* ================= SPIN WHEEL SYSTEM ================= */
+/* ================= PROMO SYSTEM ================= */
 
-const promoPopup = document.getElementById("promoPopup");
+const popup = document.getElementById("promoPopup");
 const wheel = document.getElementById("wheel");
 const spinBtn = document.getElementById("spinBtn");
-const closePromo = document.getElementById("closePromo");
+const resultBox = document.getElementById("resultBox");
 
-function openPromo(){
-  promoPopup.style.display="flex";
+let spinning = false;
+
+/* Open Automatically On Page Load */
+window.addEventListener("load",()=>{
+  popup.style.display = "flex";
+});
+
+window.openPromo = function(){
+  popup.style.display = "flex";
 }
 
-function closePromoBox(){
-  promoPopup.style.display="none";
-}
-
-closePromo.addEventListener("click", closePromoBox);
-
-/* Auto open on first load */
-if(!localStorage.getItem("promoClosed")){
-  setTimeout(openPromo,800);
+window.closePromo = function(){
+  popup.style.display = "none";
 }
 
 spinBtn.addEventListener("click", async ()=>{
+
+  if(spinning) return;
 
   const today = new Date().toDateString();
 
@@ -566,101 +548,187 @@ spinBtn.addEventListener("click", async ()=>{
     return;
   }
 
-  spinBtn.disabled = true;
+  spinning = true;
 
-  const random = Math.random();
-  let result = "";
-  let rotation = 0;
+  /* ================= WIN LOGIC ================= */
+  let outcome;
+  let discount = null;
 
-  // 50% WIN TOTAL
-  if(random < 0.5){
+  const rand = Math.random();
 
-      // RARE 20%
-      if(random < 0.05){
-          result = "20% OFF";
-          rotation = 1440 + 90;
-      }
-      // 10%
-      else if(random < 0.25){
-          result = "10% OFF";
-          rotation = 1440 + 180;
-      }
-      // 5%
-      else{
-          result = "5% OFF";
-          rotation = 1440 + 270;
-      }
+  if(rand < 0.50){
+    // WIN (50%)
+    const prizeRand = Math.random();
 
-      launchConfetti();
-      saveWinner(result);
+    if(prizeRand < 0.55){
+      outcome = "10% OFF";
+      discount = 10;
+    }else if(prizeRand < 0.85){
+      outcome = "5% OFF";
+      discount = 5;
+    }else{
+      outcome = "20% OFF"; // rare
+      discount = 20;
+    }
 
-      alert("🎉 YOU WON " + result + "!\nScreenshot and message us 💜");
+  }else{
+    outcome = "LOSE";
+  }
 
-  } else {
-      result = "LOSE";
-      rotation = 1440 + 360;
-      alert("No luck today 😢 Try again tomorrow!");
+  /* ================= ROTATION ================= */
+  let rotation;
+
+  switch(outcome){
+    case "5% OFF": rotation = 360*5 + 36; break;
+    case "10% OFF": rotation = 360*5 + 108; break;
+    case "LOSE": rotation = 360*5 + 180; break;
+    case "20% OFF": rotation = 360*5 + 324; break;
   }
 
   wheel.style.transform = `rotate(${rotation}deg)`;
 
-  localStorage.setItem("spinDate", today);
+  setTimeout(async ()=>{
 
-  setTimeout(()=>{
-    spinBtn.disabled = false;
-  },4000);
+    if(outcome !== "LOSE"){
+
+      const code = "PC" + Math.random().toString(36).substring(2,8).toUpperCase();
+
+      resultBox.innerHTML = `
+        <h3 style="color:#6a00f4;">🎉 CONGRATULATIONS!</h3>
+        <p>You won <strong>${discount}% OFF</strong></p>
+        <p>Your Code:</p>
+        <h2 style="color:#ff006e;">${code}</h2>
+        <p>📸 Screenshot this and message us!</p>
+      `;
+
+      await addDoc(collection(db,"promo_winners"),{
+        code: code,
+        discount: discount,
+        createdAt: new Date()
+      });
+
+    }else{
+      resultBox.innerHTML = `
+        <h3 style="color:#6a00f4;">😢 Try Again Tomorrow!</h3>
+      `;
+    }
+
+    localStorage.setItem("spinDate", today);
+    spinning = false;
+
+  }, 4000);
+
 });
 
-/* Save winner to Firestore */
-async function saveWinner(prize){
+</script>
+<!-- ================= CONFETTI CANVAS ================= -->
+<canvas id="confettiCanvas" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:99999;
+"></canvas>
 
-  const code = "PC" + Math.floor(100000 + Math.random()*900000);
+<script>
 
-  await addDoc(collection(db,"winners"),{
-    code: code,
-    prize: prize,
-    createdAt: new Date()
+/* ================= CONFETTI ================= */
+const canvas = document.getElementById("confettiCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let confettiPieces = [];
+
+function createConfetti(){
+  for(let i=0;i<150;i++){
+    confettiPieces.push({
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height - canvas.height,
+      size: Math.random()*8+4,
+      speed: Math.random()*3+2,
+      color: `hsl(${Math.random()*360},100%,50%)`
+    });
+  }
+}
+
+function drawConfetti(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  confettiPieces.forEach(p=>{
+    ctx.fillStyle = p.color;
+    ctx.fillRect(p.x,p.y,p.size,p.size);
+    p.y += p.speed;
   });
 }
 
-/* ================= CONFETTI ================= */
+function startConfetti(){
+  createConfetti();
+  let duration = 2000;
+  let start = Date.now();
 
-function launchConfetti(){
+  function animate(){
+    drawConfetti();
+    if(Date.now()-start < duration){
+      requestAnimationFrame(animate);
+    }else{
+      confettiPieces=[];
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+    }
+  }
 
-  const duration = 2000;
-  const end = Date.now() + duration;
+  animate();
+}
 
-  const interval = setInterval(()=>{
+/* ================= FIREWORK EFFECT ================= */
+function firework(){
+  const explosion = document.createElement("div");
+  explosion.style.position="fixed";
+  explosion.style.width="20px";
+  explosion.style.height="20px";
+  explosion.style.borderRadius="50%";
+  explosion.style.background="radial-gradient(circle,#ff006e,#6a00f4)";
+  explosion.style.left="50%";
+  explosion.style.top="50%";
+  explosion.style.transform="translate(-50%,-50%) scale(0)";
+  explosion.style.zIndex="99998";
+  explosion.style.transition="transform .6s ease-out, opacity .6s";
+  document.body.appendChild(explosion);
 
-    if(Date.now() > end){
-      clearInterval(interval);
-      return;
+  setTimeout(()=>{
+    explosion.style.transform="translate(-50%,-50%) scale(20)";
+    explosion.style.opacity="0";
+  },50);
+
+  setTimeout(()=>{
+    explosion.remove();
+  },700);
+}
+
+/* ================= HOOK INTO WIN ================= */
+const oldSpin = document.getElementById("spinBtn");
+
+oldSpin.addEventListener("click",()=>{
+
+  setTimeout(()=>{
+    const resultText = document.getElementById("resultBox").innerText;
+
+    if(resultText.includes("CONGRATULATIONS")){
+      startConfetti();
+      firework();
     }
 
-    const confetti = document.createElement("div");
-    confetti.style.position="fixed";
-    confetti.style.width="8px";
-    confetti.style.height="8px";
-    confetti.style.background="hsl("+Math.random()*360+",100%,50%)";
-    confetti.style.left=Math.random()*window.innerWidth+"px";
-    confetti.style.top="-10px";
-    confetti.style.zIndex="99999";
-    confetti.style.borderRadius="50%";
+  },4100);
 
-    document.body.appendChild(confetti);
+});
 
-    let fall = setInterval(()=>{
-      confetti.style.top =
-        parseInt(confetti.style.top)+5+"px";
-
-      if(parseInt(confetti.style.top) > window.innerHeight){
-        clearInterval(fall);
-        confetti.remove();
-      }
-    },20);
-
-  },100);
-}
+/* ================= MOBILE RESPONSIVE FIX ================= */
+window.addEventListener("resize",()=>{
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
 
 </script>
 
