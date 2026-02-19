@@ -18,7 +18,6 @@
 body{
   background:#f5f0ff;
   color:#333;
-  transition:.3s;
 }
 
 /* NAV */
@@ -36,20 +35,16 @@ nav{
   color:#6a00f4;
 }
 
-nav button{
-  background:#6a00f4;
-  color:white;
-  border:none;
-  padding:6px 14px;
-  border-radius:20px;
-  cursor:pointer;
-  margin-left:10px;
+nav a{
+  text-decoration:none;
+  color:#6a00f4;
+  font-weight:600;
 }
 
 /* LOGIN */
 .login-box{
   max-width:350px;
-  margin:120px auto;
+  margin:100px auto;
   background:white;
   padding:30px;
   border-radius:15px;
@@ -65,17 +60,24 @@ nav button{
   margin:15px 0;
 }
 
+.login-box button{
+  padding:10px 20px;
+  border:none;
+  border-radius:25px;
+  background:#6a00f4;
+  color:white;
+  cursor:pointer;
+}
+
 /* DASHBOARD */
 .dashboard{
   display:none;
   padding:40px 20px;
 }
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:20px;
-  margin-bottom:40px;
+.section-title{
+  color:#6a00f4;
+  margin:40px 0 20px;
 }
 
 .card{
@@ -83,42 +85,17 @@ nav button{
   padding:20px;
   border-radius:15px;
   box-shadow:0 8px 20px rgba(0,0,0,.08);
-  text-align:center;
-}
-
-.card h3{
-  color:#6a00f4;
-  margin-bottom:10px;
-}
-
-.section{
-  margin-bottom:50px;
-}
-
-.section h2{
-  color:#6a00f4;
-  margin-bottom:20px;
-}
-
-.item{
-  background:white;
-  padding:15px;
-  border-radius:12px;
   margin-bottom:15px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  box-shadow:0 5px 15px rgba(0,0,0,.05);
 }
 
-.delete-btn{
-  background:#ff006e;
-  color:white;
+button.delete-btn{
+  background:#ff4d4d;
   border:none;
+  color:white;
   padding:6px 12px;
   border-radius:20px;
   cursor:pointer;
+  font-size:12px;
 }
 
 /* DARK MODE */
@@ -132,18 +109,10 @@ body.dark nav{
 }
 
 body.dark .login-box,
-body.dark .card,
-body.dark .item{
+body.dark .card{
   background:#1f1f1f;
 }
 
-@media(max-width:600px){
-  .item{
-    flex-direction:column;
-    align-items:flex-start;
-    gap:10px;
-  }
-}
 </style>
 </head>
 
@@ -152,44 +121,36 @@ body.dark .item{
 <nav>
   <div class="logo">Print & Craft 💜 Admin</div>
   <div>
-    <button onclick="toggleDark()">🌙</button>
-    <button onclick="location.href='index.html'">Back</button>
+    <button onclick="toggleDark()" style="margin-right:15px;">🌙</button>
+    <a href="index.html">Back to Site</a>
   </div>
 </nav>
 
 <!-- LOGIN -->
 <div class="login-box" id="loginBox">
   <h2>Admin Login 🔐</h2>
-  <input type="password" id="adminPassword" placeholder="Enter Password">
+  <input type="password" id="adminPassword" placeholder="Enter Admin Password">
   <button onclick="checkPassword()">Login</button>
 </div>
 
 <!-- DASHBOARD -->
 <div class="dashboard" id="dashboard">
 
-  <!-- STATS -->
-  <div class="stats">
-    <div class="card">
-      <h3>Total Winners</h3>
-      <p id="winnerTotal">0</p>
-    </div>
-    <div class="card">
-      <h3>Total Reviews</h3>
-      <p id="reviewTotal">0</p>
-    </div>
+  <h2 class="section-title">Dashboard Stats 📊</h2>
+  <div class="card">
+    Total Winners: <span id="winnerTotal">0</span><br>
+    Total Reviews: <span id="reviewTotal">0</span><br>
+    Total Promo Codes: <span id="codeTotal">0</span>
   </div>
 
-  <!-- WINNERS -->
-  <div class="section">
-    <h2>Promo Winners 🎉</h2>
-    <div id="winnersContainer"></div>
-  </div>
+  <h2 class="section-title">Promo Winners 🎉</h2>
+  <div id="winnersContainer"></div>
 
-  <!-- REVIEWS -->
-  <div class="section">
-    <h2>Customer Reviews 💜</h2>
-    <div id="reviewsContainer"></div>
-  </div>
+  <h2 class="section-title">Customer Reviews 💬</h2>
+  <div id="reviewsContainer"></div>
+
+  <h2 class="section-title">All Promo Codes 🎟</h2>
+  <div id="codesContainer"></div>
 
 </div>
 
@@ -206,12 +167,11 @@ import {
   doc
 } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
-/* SAME CONFIG AS INDEX */
 const firebaseConfig = {
-  apiKey: "AIzaSyCCMd6565SLeJx0zCM5h8bkj5UzSBZeQcA",
+  apiKey: "AIzaSyCCM6d565SLeJx0zCM5h8bkj5UzsBZeQcA",
   authDomain: "print-craft-9d708.firebaseapp.com",
   projectId: "print-craft-9d708",
-  storageBucket: "print-craft-9d708.firebasestorage.app",
+  storageBucket: "print-craft-9d708.appspot.com",
   messagingSenderId: "873230926106",
   appId: "1:873230926106:web:464e08d3ce7d111b6aeca3"
 };
@@ -228,86 +188,120 @@ window.checkPassword = function(){
   if(input === ADMIN_PASSWORD){
     document.getElementById("loginBox").style.display="none";
     document.getElementById("dashboard").style.display="block";
-    loadData();
+
+    loadWinners();
+    loadReviews();
+    loadCodes();
   }else{
-    alert("Wrong password ❌");
+    alert("Wrong Password ❌");
   }
-};
+}
 
 /* DARK MODE */
 window.toggleDark = function(){
   document.body.classList.toggle("dark");
-};
-
-/* LOAD DATA */
-async function loadData(){
-  loadWinners();
-  loadReviews();
 }
 
 /* LOAD WINNERS */
 async function loadWinners(){
+
   const container = document.getElementById("winnersContainer");
-  container.innerHTML="";
-  const snapshot = await getDocs(query(collection(db,"promo_winners"),orderBy("createdAt","desc")));
-  let count=0;
+  container.innerHTML = "";
+
+  const q = query(collection(db,"promo_winners"), orderBy("createdAt","desc"));
+  const snapshot = await getDocs(q);
+
+  document.getElementById("winnerTotal").innerText = snapshot.size;
 
   snapshot.forEach(docSnap=>{
-    count++;
     const data = docSnap.data();
 
     container.innerHTML += `
-      <div class="item">
-        <div>
-          <strong>${data.code}</strong> — ${data.discount}% OFF
-        </div>
-        <button class="delete-btn" onclick="deleteWinner('${docSnap.id}')">Delete</button>
+      <div class="card">
+        <strong>${data.code}</strong> - ${data.discount}% OFF
+        <br>
+        <button class="delete-btn" onclick="deleteWinner('${docSnap.id}')">
+          Delete
+        </button>
       </div>
     `;
   });
 
-  document.getElementById("winnerTotal").innerText=count;
+}
+
+window.deleteWinner = async function(id){
+  await deleteDoc(doc(db,"promo_winners",id));
+  loadWinners();
 }
 
 /* LOAD REVIEWS */
 async function loadReviews(){
+
   const container = document.getElementById("reviewsContainer");
-  container.innerHTML="";
-  const snapshot = await getDocs(query(collection(db,"reviews"),orderBy("createdAt","desc")));
-  let count=0;
+  container.innerHTML = "";
+
+  const snapshot = await getDocs(collection(db,"reviews"));
+
+  document.getElementById("reviewTotal").innerText = snapshot.size;
 
   snapshot.forEach(docSnap=>{
-    count++;
     const data = docSnap.data();
 
     container.innerHTML += `
-      <div class="item">
-        <div>
-          <strong>${data.name}</strong> — ⭐ ${data.rating}<br>
-          ${data.text}
-        </div>
-        <button class="delete-btn" onclick="deleteReview('${docSnap.id}')">Delete</button>
+      <div class="card">
+        <strong>${data.name}</strong><br>
+        ${"⭐".repeat(data.rating)}<br>
+        ${data.text}<br>
+        <button class="delete-btn" onclick="deleteReview('${docSnap.id}')">
+          Delete
+        </button>
       </div>
     `;
   });
 
-  document.getElementById("reviewTotal").innerText=count;
 }
 
-/* DELETE FUNCTIONS */
-window.deleteWinner = async function(id){
-  if(confirm("Delete this winner?")){
-    await deleteDoc(doc(db,"promo_winners",id));
-    loadWinners();
-  }
-};
-
 window.deleteReview = async function(id){
-  if(confirm("Delete this review?")){
-    await deleteDoc(doc(db,"reviews",id));
-    loadReviews();
-  }
-};
+  await deleteDoc(doc(db,"reviews",id));
+  loadReviews();
+}
+
+/* LOAD PROMO CODES */
+async function loadCodes(){
+
+  const container = document.getElementById("codesContainer");
+  container.innerHTML = "";
+
+  const snapshot = await getDocs(collection(db,"promo_codes"));
+
+  document.getElementById("codeTotal").innerText = snapshot.size;
+
+  snapshot.forEach(docSnap=>{
+    const data = docSnap.data();
+
+    const statusColor = data.used ? "#ff4d4d" : "#2ecc71";
+    const statusText = data.used ? "Used" : "Available";
+
+    container.innerHTML += `
+      <div class="card" style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <strong>${data.code}</strong><br>
+          ${data.discount}% OFF
+        </div>
+        <div style="
+          background:${statusColor};
+          color:white;
+          padding:6px 12px;
+          border-radius:20px;
+          font-size:12px;
+        ">
+          ${statusText}
+        </div>
+      </div>
+    `;
+  });
+
+}
 
 </script>
 
