@@ -629,41 +629,41 @@ spinBtn.addEventListener("click", async ()=>{
 
   wheel.style.transform = `rotate(${rotation}deg)`;
 
-  setTimeout(async ()=>{
+setTimeout(async ()=>{
 
   if(outcome !== "LOSE"){
 
-  const code = "PC" + Math.random().toString(36).substring(2,8).toUpperCase();
+    const code = "PC" + Math.random().toString(36).substring(2,8).toUpperCase();
 
-  resultBox.innerHTML = `
-    <h3 style="color:#6a00f4;">🎉 CONGRATULATIONS!</h3>
-    <p>You won <strong>${discount}% OFF</strong></p>
-    <p>Your Code:</p>
-    <h2 style="color:#ff006e;">${code}</h2>
-    <p>📸 Screenshot this and message us!</p>
-  `;
+    resultBox.innerHTML = `
+      <h3 style="color:#6a00f4;">🎉 CONGRATULATIONS!</h3>
+      <p>You won <strong>${discount}% OFF</strong></p>
+      <p>Your Code:</p>
+      <h2 style="color:#ff006e;">${code}</h2>
+      <p>📸 Screenshot this and message us!</p>
+    `;
 
-  startConfetti();
-  firework();
+    startConfetti();
+    firework();
 
-  await addDoc(collection(db,"promo_winners"),{
-    code: code,
-    discount: discount,
-    createdAt: new Date()
-  });
+    await addDoc(collection(db,"promo_winners"),{
+      code: code,
+      discount: discount,
+      createdAt: new Date()
+    });
 
-}
+  } else {
 
-    }else{
-      resultBox.innerHTML = `
-        <h3 style="color:#6a00f4;">😢 Try Again Tomorrow!</h3>
-      `;
-    }
+    resultBox.innerHTML = `
+      <h3 style="color:#6a00f4;">😢 Try Again Tomorrow!</h3>
+    `;
 
-    localStorage.setItem("spinDate", today);
-    spinning = false;
+  }
 
-  }, 4000);
+  localStorage.setItem("spinDate", today);
+  spinning = false;
+
+}, 4000);
 
 });
 
