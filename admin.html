@@ -75,44 +75,66 @@ nav a{
   padding:40px 20px;
 }
 
-.section-title{
-  color:#6a00f4;
-  margin:40px 0 20px;
+.section{
+  margin-bottom:50px;
 }
 
+.section h2{
+  color:#6a00f4;
+  margin-bottom:20px;
+}
+
+/* CARDS */
 .card{
   background:white;
-  padding:20px;
-  border-radius:15px;
-  box-shadow:0 8px 20px rgba(0,0,0,.08);
+  padding:15px;
+  border-radius:12px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.08);
   margin-bottom:15px;
 }
 
-button.delete-btn{
-  background:#ff4d4d;
-  border:none;
-  color:white;
-  padding:6px 12px;
-  border-radius:20px;
-  cursor:pointer;
-  font-size:12px;
+/* CODE GRID */
+.codes-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+}
+
+.code-card{
+  background:white;
+  padding:15px;
+  border-radius:12px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.08);
+  font-size:14px;
+}
+
+.code-card.used{
+  background:#ffe5e5;
+}
+
+.status-available{
+  color:green;
+  font-weight:600;
+}
+
+.status-used{
+  color:red;
+  font-weight:600;
 }
 
 /* DARK MODE */
 body.dark{
   background:#121212;
-  color:#f1f1f1;
+  color:white;
 }
 
-body.dark nav{
-  background:#1e1e1e;
-}
-
+body.dark nav,
 body.dark .login-box,
-body.dark .card{
+body.dark .card,
+body.dark .code-card{
   background:#1f1f1f;
+  color:white;
 }
-
 </style>
 </head>
 
@@ -120,37 +142,45 @@ body.dark .card{
 
 <nav>
   <div class="logo">Print & Craft 💜 Admin</div>
-  <div>
-    <button onclick="toggleDark()" style="margin-right:15px;">🌙</button>
-    <a href="index.html">Back to Site</a>
-  </div>
+  <a href="index.html">Back to Site</a>
 </nav>
 
 <!-- LOGIN -->
 <div class="login-box" id="loginBox">
   <h2>Admin Login 🔐</h2>
-  <input type="password" id="adminPassword" placeholder="Enter Admin Password">
+  <input type="password" id="adminPassword" placeholder="Enter Password">
   <button onclick="checkPassword()">Login</button>
 </div>
 
 <!-- DASHBOARD -->
 <div class="dashboard" id="dashboard">
 
-  <h2 class="section-title">Dashboard Stats 📊</h2>
-  <div class="card">
-    Total Winners: <span id="winnerTotal">0</span><br>
-    Total Reviews: <span id="reviewTotal">0</span><br>
-    Total Promo Codes: <span id="codeTotal">0</span>
+  <!-- WINNERS -->
+  <div class="section">
+    <h2>Promo Winners 🎉</h2>
+    <div id="winnersContainer"></div>
   </div>
 
-  <h2 class="section-title">Promo Winners 🎉</h2>
-  <div id="winnersContainer"></div>
+  <!-- REVIEWS -->
+  <div class="section">
+    <h2>Customer Reviews 💬</h2>
+    <div id="reviewsContainer"></div>
+  </div>
 
-  <h2 class="section-title">Customer Reviews 💬</h2>
-  <div id="reviewsContainer"></div>
+  <!-- PROMO CODES -->
+  <div class="section">
+    <h2>Promo Codes Management 🎁</h2>
 
-  <h2 class="section-title">All Promo Codes 🎟</h2>
-  <div id="codesContainer"></div>
+    <h3>5% Discount Codes</h3>
+    <div id="codes5" class="codes-grid"></div>
+
+    <h3 style="margin-top:30px;">10% Discount Codes</h3>
+    <div id="codes10" class="codes-grid"></div>
+
+    <h3 style="margin-top:30px;">20% Discount Codes</h3>
+    <div id="codes20" class="codes-grid"></div>
+
+  </div>
 
 </div>
 
@@ -161,17 +191,15 @@ import {
   getFirestore, 
   collection, 
   getDocs, 
-  query, 
-  orderBy,
   deleteDoc,
   doc
 } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCCM6d565SLeJx0zCM5h8bkj5UzsBZeQcA",
+  apiKey: "AIzaSyCCMd6565SLeJx0zCM5h8bkj5UzSBZeQcA",
   authDomain: "print-craft-9d708.firebaseapp.com",
   projectId: "print-craft-9d708",
-  storageBucket: "print-craft-9d708.appspot.com",
+  storageBucket: "print-craft-9d708.firebasestorage.app",
   messagingSenderId: "873230926106",
   appId: "1:873230926106:web:464e08d3ce7d111b6aeca3"
 };
@@ -183,23 +211,21 @@ const db = getFirestore(app);
 const ADMIN_PASSWORD = "printcraft2026";
 
 window.checkPassword = function(){
+
   const input = document.getElementById("adminPassword").value;
 
   if(input === ADMIN_PASSWORD){
+
     document.getElementById("loginBox").style.display="none";
     document.getElementById("dashboard").style.display="block";
 
     loadWinners();
     loadReviews();
-    loadCodes();
+    loadPromoCodes();
+
   }else{
     alert("Wrong Password ❌");
   }
-}
-
-/* DARK MODE */
-window.toggleDark = function(){
-  document.body.classList.toggle("dark");
 }
 
 /* LOAD WINNERS */
@@ -208,30 +234,18 @@ async function loadWinners(){
   const container = document.getElementById("winnersContainer");
   container.innerHTML = "";
 
-  const q = query(collection(db,"promo_winners"), orderBy("createdAt","desc"));
-  const snapshot = await getDocs(q);
-
-  document.getElementById("winnerTotal").innerText = snapshot.size;
+  const snapshot = await getDocs(collection(db,"promo_winners"));
 
   snapshot.forEach(docSnap=>{
     const data = docSnap.data();
 
     container.innerHTML += `
       <div class="card">
-        <strong>${data.code}</strong> - ${data.discount}% OFF
-        <br>
-        <button class="delete-btn" onclick="deleteWinner('${docSnap.id}')">
-          Delete
-        </button>
+        <strong>${data.code}</strong><br>
+        ${data.discount}% OFF
       </div>
     `;
   });
-
-}
-
-window.deleteWinner = async function(id){
-  await deleteDoc(doc(db,"promo_winners",id));
-  loadWinners();
 }
 
 /* LOAD REVIEWS */
@@ -242,65 +256,50 @@ async function loadReviews(){
 
   const snapshot = await getDocs(collection(db,"reviews"));
 
-  document.getElementById("reviewTotal").innerText = snapshot.size;
-
   snapshot.forEach(docSnap=>{
     const data = docSnap.data();
 
     container.innerHTML += `
       <div class="card">
         <strong>${data.name}</strong><br>
-        ${"⭐".repeat(data.rating)}<br>
-        ${data.text}<br>
-        <button class="delete-btn" onclick="deleteReview('${docSnap.id}')">
-          Delete
-        </button>
+        ⭐ ${data.rating}<br>
+        ${data.text}
       </div>
     `;
   });
-
-}
-
-window.deleteReview = async function(id){
-  await deleteDoc(doc(db,"reviews",id));
-  loadReviews();
 }
 
 /* LOAD PROMO CODES */
-async function loadCodes(){
+async function loadPromoCodes(){
 
-  const container = document.getElementById("codesContainer");
-  container.innerHTML = "";
+  const codes5 = document.getElementById("codes5");
+  const codes10 = document.getElementById("codes10");
+  const codes20 = document.getElementById("codes20");
+
+  codes5.innerHTML = "";
+  codes10.innerHTML = "";
+  codes20.innerHTML = "";
 
   const snapshot = await getDocs(collection(db,"promo_codes"));
 
-  document.getElementById("codeTotal").innerText = snapshot.size;
-
   snapshot.forEach(docSnap=>{
+
     const data = docSnap.data();
 
-    const statusColor = data.used ? "#ff4d4d" : "#2ecc71";
-    const statusText = data.used ? "Used" : "Available";
+    const container =
+      data.discount === 5 ? codes5 :
+      data.discount === 10 ? codes10 :
+      codes20;
 
     container.innerHTML += `
-      <div class="card" style="display:flex;justify-content:space-between;align-items:center;">
-        <div>
-          <strong>${data.code}</strong><br>
-          ${data.discount}% OFF
-        </div>
-        <div style="
-          background:${statusColor};
-          color:white;
-          padding:6px 12px;
-          border-radius:20px;
-          font-size:12px;
-        ">
-          ${statusText}
-        </div>
+      <div class="code-card ${data.used ? "used" : ""}">
+        <strong>${data.code}</strong><br>
+        <span class="${data.used ? "status-used" : "status-available"}">
+          ${data.used ? "Used ❌" : "Available ✅"}
+        </span>
       </div>
     `;
   });
-
 }
 
 </script>
