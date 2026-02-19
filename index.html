@@ -628,13 +628,14 @@ spinBtn.addEventListener("click", async ()=>{
 
     const snapshot = await getDocs(q);
 
-    if(snapshot.empty){
-        resultBox.innerHTML = `
-          <h3>No more codes available 😢</h3>
-        `;
-        return;
-    }
+if(snapshot.empty){
+    resultBox.innerHTML = `
+      <h3>No more codes available 😢</h3>
+    `;
 
+    localStorage.setItem("spinDate", today);
+    return;
+}
     const codeDoc = snapshot.docs[0];
     const codeData = codeDoc.data();
     const code = codeData.code;
