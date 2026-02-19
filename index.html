@@ -71,6 +71,44 @@ color:white;
 text-align:center;
 padding:80px 20px;
 }
+  /* SIDE MENU */
+.side-menu{
+position:fixed;
+top:0;
+left:-250px;
+width:250px;
+height:100%;
+background:white;
+box-shadow:5px 0 20px rgba(0,0,0,0.1);
+padding-top:80px;
+display:flex;
+flex-direction:column;
+gap:20px;
+padding-left:20px;
+transition:0.3s;
+z-index:2000;
+}
+
+.side-menu a{
+text-decoration:none;
+color:#6a00f4;
+font-weight:600;
+font-size:16px;
+}
+
+/* ACTIVE MENU */
+.side-menu.active{
+left:0;
+}
+
+/* DARK MODE SIDE MENU */
+body.dark .side-menu{
+background:#1e1e1e;
+}
+
+body.dark .side-menu a{
+color:white;
+}
 
 /* PRODUCTS */
 .products{
@@ -274,13 +312,25 @@ height:220px;
 <!-- NAVIGATION -->
 <nav>
   <div class="logo">Print & Craft 💜</div>
-  <ul>
-    <li><a href="products.html">Products</a></li>
-    <li><a href="reviews.html">All Reviews</a></li>
-    <li><button onclick="openPromo()" style="background:#ff006e;color:white;border:none;padding:6px 14px;border-radius:20px;cursor:pointer;">🎁Promo</button></li>
-    <li><button id="darkToggle">🌙</button></li>
-  </ul>
+
+  <div style="display:flex;align-items:center;gap:15px;">
+
+    <!-- Dark Mode Button (Always Visible) -->
+    <button id="darkToggle">🌙</button>
+
+    <!-- Hamburger Button -->
+    <div id="menuBtn" style="font-size:26px;cursor:pointer;">☰</div>
+
+  </div>
 </nav>
+
+<!-- SIDE MENU -->
+<div id="sideMenu" class="side-menu">
+  <a href="products.html">Products</a>
+  <a href="reviews.html">All Reviews</a>
+  <a href="#" onclick="openPromo()">Promo</a>
+  <a href="admin.html">Admin</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -688,6 +738,15 @@ window.addEventListener("resize",()=>{
   canvas.height = window.innerHeight;
 });
 
+  /* ================= HAMBURGER MENU ================= */
+
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+
+menuBtn.addEventListener("click",()=>{
+  sideMenu.classList.toggle("active");
+});
+  
 </script>
 
 </body>
