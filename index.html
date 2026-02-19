@@ -21,7 +21,7 @@ background:#f5f0ff;
 color:#333;
 }
 
-/* NAVBAR */
+/* NAV */
 nav{
 background:white;
 padding:15px 20px;
@@ -43,7 +43,7 @@ color:#6a00f4;
 nav ul{
 list-style:none;
 display:flex;
-gap:15px;
+gap:20px;
 align-items:center;
 }
 
@@ -54,14 +54,13 @@ font-weight:600;
 font-size:14px;
 }
 
-.nav-btn{
+#darkToggle{
 background:#6a00f4;
 color:white;
 border:none;
 padding:6px 14px;
 border-radius:20px;
 cursor:pointer;
-font-size:13px;
 }
 
 /* HERO */
@@ -85,10 +84,8 @@ margin-bottom:40px;
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
 gap:20px;
-max-width:1200px;
-margin:auto;
 }
 
 .product{
@@ -129,7 +126,12 @@ margin-top:40px;
 .reviews-section{
 padding:60px 20px;
 text-align:center;
-background:white;
+background:#fff;
+}
+
+.reviews-grid{
+max-width:900px;
+margin:0 auto;
 }
 
 .review-card{
@@ -137,20 +139,43 @@ background:#f5f0ff;
 padding:20px;
 border-radius:15px;
 margin-bottom:20px;
-box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.review-form{
+max-width:400px;
+margin:30px auto 0;
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+.review-form input,
+.review-form textarea{
+padding:12px;
+border-radius:10px;
+border:1px solid #ddd;
+}
+
+.review-form button{
+padding:12px;
+border:none;
+border-radius:25px;
+background:#6a00f4;
+color:white;
+font-weight:600;
+cursor:pointer;
 }
 
 .stars{
 display:flex;
 justify-content:center;
 gap:8px;
-margin:10px 0;
 }
 
 .stars span{
 font-size:22px;
 cursor:pointer;
-opacity:0.4;
+opacity:.4;
 }
 
 .stars span.active{
@@ -161,11 +186,11 @@ opacity:1;
 .promo-popup{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.6);
+background:rgba(0,0,0,.7);
 display:none;
 justify-content:center;
 align-items:center;
-z-index:9999;
+z-index:99999;
 }
 
 .promo-box{
@@ -173,7 +198,7 @@ background:white;
 padding:30px;
 border-radius:20px;
 text-align:center;
-width:320px;
+width:340px;
 position:relative;
 }
 
@@ -187,36 +212,45 @@ color:#6a00f4;
 }
 
 .wheel{
-width:220px;
-height:220px;
+width:240px;
+height:240px;
 border-radius:50%;
 margin:20px auto;
 border:6px solid #6a00f4;
 background:conic-gradient(
-#6a00f4 0% 25%,
-#bb86fc 25% 50%,
-#9d4edd 50% 75%,
-#e0aaff 75% 100%
+#6a00f4 0deg 90deg,
+#bb86fc 90deg 180deg,
+#9d4edd 180deg 270deg,
+#e0aaff 270deg 360deg
 );
+position:relative;
 transition:transform 4s ease-out;
 }
 
+.wheel div{
+position:absolute;
+width:100%;
+text-align:center;
+top:50%;
+left:50%;
+transform-origin:center;
+color:white;
+font-weight:600;
+}
+
+.label1{ transform:rotate(45deg) translate(-50%,-100px); }
+.label2{ transform:rotate(135deg) translate(-50%,-100px); }
+.label3{ transform:rotate(225deg) translate(-50%,-100px); }
+.label4{ transform:rotate(315deg) translate(-50%,-100px); }
+
 #spinBtn{
-padding:10px 20px;
+padding:10px 25px;
 border:none;
 border-radius:25px;
 background:#6a00f4;
 color:white;
-cursor:pointer;
 font-weight:600;
-}
-
-footer{
-background:#6a00f4;
-color:white;
-text-align:center;
-padding:30px;
-margin-top:60px;
+cursor:pointer;
 }
 
 /* DARK MODE */
@@ -225,47 +259,54 @@ background:#121212;
 color:#f1f1f1;
 }
 body.dark nav,
-body.dark footer{
+body.dark .reviews-section{
 background:#1e1e1e;
 }
 body.dark .product,
 body.dark .review-card{
 background:#1f1f1f;
+color:white;
+}
+body.dark input,
+body.dark textarea{
+background:#1f1f1f;
+color:white;
+border:1px solid #444;
 }
 
 /* MOBILE */
-@media(max-width:600px){
-nav{
-flex-direction:column;
-gap:10px;
+@media(max-width:768px){
+.grid{
+grid-template-columns:repeat(2,1fr);
 }
-.hero{
-padding:60px 15px;
+.product img{
+height:150px;
+}
+.promo-box{
+width:90%;
 }
 }
 </style>
 </head>
 <body>
-
-<!-- NAVIGATION -->
+<!-- ================= NAVIGATION ================= -->
 <nav>
   <div class="logo">Print & Craft 💜</div>
   <ul>
     <li><a href="products.html">Products</a></li>
     <li><a href="reviews.html">All Reviews</a></li>
     <li><a href="admin.html">Admin</a></li>
-    <li><button class="nav-btn" onclick="openPromo()">🎉 Spin</button></li>
-    <li><button class="nav-btn" id="darkToggle">🌙</button></li>
+    <li><button id="darkToggle">🌙</button></li>
   </ul>
 </nav>
 
-<!-- HERO -->
+<!-- ================= HERO ================= -->
 <section class="hero">
   <h1>Handmade Gifts That Speak Love 💜</h1>
   <p>Create unforgettable memories with our custom crafts made with heart and passion.</p>
 </section>
 
-<!-- PRODUCTS -->
+<!-- ================= PRODUCTS ================= -->
 <section class="products">
   <h2>Our Products ✨</h2>
 
@@ -318,23 +359,44 @@ padding:60px 15px;
   <a href="products.html" class="view-btn">View All Products 💜</a>
 </section>
 
-<!-- REVIEWS -->
+<!-- ================= PROMO POPUP ================= -->
+<div class="promo-popup" id="promoPopup">
+  <div class="promo-box">
+
+    <div class="close-btn" id="closePromo">✕</div>
+
+    <h3>Spin & Win 🎉</h3>
+
+    <div class="wheel" id="wheel">
+      <div class="label1">5% OFF</div>
+      <div class="label2">10% OFF</div>
+      <div class="label3">20% OFF</div>
+      <div class="label4">LOSE</div>
+    </div>
+
+    <button id="spinBtn">SPIN</button>
+
+    <p id="spinResult" style="margin-top:15px;font-weight:600;"></p>
+
+  </div>
+</div>
+<!-- ================= REVIEWS SECTION ================= -->
 <section class="reviews-section">
   <h2>Customer Feedback 💜</h2>
 
-  <div style="font-size:20px;font-weight:600;color:#6a00f4;margin-bottom:20px;">
+  <div class="average-box">
     <span id="averageRating">0.0</span> ⭐
     <p>Average Rating</p>
   </div>
 
-  <div id="reviewsContainer"></div>
+  <div id="reviewsContainer" class="reviews-grid"></div>
 
-  <a href="reviews.html" class="view-btn" style="margin-top:20px;">View All Reviews 💜</a>
+  <a href="reviews.html" class="view-btn" style="margin-bottom:40px;">View All Reviews 💜</a>
 
   <h3 style="margin-top:40px;">Leave a Review ✨</h3>
 
-  <form id="reviewForm" style="max-width:400px;margin:auto;">
-    <input type="text" id="name" placeholder="Your Name" required style="width:100%;padding:10px;margin:10px 0;border-radius:10px;border:1px solid #ddd;">
+  <form id="reviewForm" class="review-form">
+    <input type="text" id="name" placeholder="Your Name" required>
 
     <div class="stars">
       <span data-value="1">⭐</span>
@@ -344,29 +406,19 @@ padding:60px 15px;
       <span data-value="5">⭐</span>
     </div>
 
-    <textarea id="reviewText" placeholder="Write your review..." required style="width:100%;padding:10px;margin:10px 0;border-radius:10px;border:1px solid #ddd;"></textarea>
+    <textarea id="reviewText" placeholder="Write your review..." required></textarea>
 
-    <button type="submit" class="nav-btn" style="width:100%;margin-top:10px;">Submit Review 💜</button>
+    <button type="submit">Submit Review 💜</button>
   </form>
 </section>
-
-<!-- PROMO POPUP -->
-<div class="promo-popup" id="promoPopup">
-  <div class="promo-box">
-    <div class="close-btn" onclick="closePromo()">✕</div>
-    <h3>Spin & Win 🎉</h3>
-    <div class="wheel" id="wheel"></div>
-    <button id="spinBtn">SPIN</button>
-    <p id="promoResult" style="margin-top:15px;font-weight:600;"></p>
-  </div>
-</div>
 
 <footer>
   <p>Made with 💜 by Print & Craft</p>
 </footer>
+
+<!-- ================= FIREBASE + MAIN SCRIPT ================= -->
 <script type="module">
 
-/* ================= FIREBASE IMPORTS ================= */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
 import { 
   getFirestore, 
@@ -377,7 +429,6 @@ import {
   orderBy 
 } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
-/* ================= FIREBASE CONFIG ================= */
 const firebaseConfig = {
   apiKey: "AIzaSyCCMd6565SLeJx0zCM5h8bkj5UzSBZeQcA",
   authDomain: "print-craft-9d708.firebaseapp.com",
@@ -389,23 +440,22 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
 window.db = db;
 
 /* ================= DARK MODE ================= */
+
 const toggle = document.getElementById("darkToggle");
 
-if(localStorage.getItem("darkMode") === "enabled"){
+if(localStorage.getItem("darkMode")==="enabled"){
   document.body.classList.add("dark");
 }
 
 toggle.addEventListener("click",()=>{
   document.body.classList.toggle("dark");
-  localStorage.setItem(
-    "darkMode",
-    document.body.classList.contains("dark") ? "enabled" : "disabled"
-  );
+  localStorage.setItem("darkMode",
+    document.body.classList.contains("dark")?"enabled":"disabled");
 });
-
 /* ================= REVIEW SYSTEM ================= */
 
 let selectedRating = 0;
@@ -427,19 +477,17 @@ function maskName(name){
 }
 
 async function loadReviews(){
+
   const container = document.getElementById("reviewsContainer");
   container.innerHTML = "";
 
   let total = 0;
   let count = 0;
 
-  const q = query(
-    collection(db,"reviews"),
-    orderBy("createdAt","desc")
-  );
-
+  const q = query(collection(db,"reviews"),orderBy("createdAt","desc"));
   const snapshot = await getDocs(q);
-  const docs = snapshot.docs.slice(0,3); // SHOW ONLY 3
+
+  const docs = snapshot.docs.slice(0,3);
 
   docs.forEach(doc=>{
     const review = doc.data();
@@ -447,17 +495,17 @@ async function loadReviews(){
     count++;
 
     container.innerHTML += `
-      <div class="review-card" style="background:#f5f0ff;padding:20px;border-radius:15px;margin-bottom:15px;">
-        <h4 style="color:#6a00f4;">${maskName(review.name)}</h4>
+      <div class="review-card">
+        <h4>${maskName(review.name)}</h4>
         <p>${"⭐".repeat(review.rating)}</p>
         <p>${review.text}</p>
       </div>
     `;
   });
 
-  if(count > 0){
+  if(count>0){
     document.getElementById("averageRating").innerText =
-      (total / count).toFixed(1);
+      (total/count).toFixed(1);
   }
 }
 
@@ -468,7 +516,7 @@ document.getElementById("reviewForm")
 
   e.preventDefault();
 
-  if(selectedRating == 0){
+  if(selectedRating==0){
     alert("Please select rating ⭐");
     return;
   }
@@ -486,134 +534,132 @@ document.getElementById("reviewForm")
 
   loadReviews();
 });
-/* ================= PROMO WHEEL SYSTEM ================= */
 
-// Auto popup after 1 second
-window.addEventListener("load",()=>{
-  setTimeout(()=>{
-    document.getElementById("promoPopup").style.display="flex";
-  },1000);
-});
+/* ================= SPIN WHEEL SYSTEM ================= */
 
-// Manual open button
-document.getElementById("openPromoBtn").addEventListener("click",()=>{
-  document.getElementById("promoPopup").style.display="flex";
-});
+const promoPopup = document.getElementById("promoPopup");
+const wheel = document.getElementById("wheel");
+const spinBtn = document.getElementById("spinBtn");
+const closePromo = document.getElementById("closePromo");
 
-// Close popup
-document.getElementById("closePromo").addEventListener("click",()=>{
-  document.getElementById("promoPopup").style.display="none";
-});
-
-// 1 SPIN PER DAY
-const today = new Date().toDateString();
-if(localStorage.getItem("lastSpinDate") === today){
-  document.getElementById("spinBtn").disabled = true;
-  document.getElementById("spinBtn").innerText = "Come Back Tomorrow 💜";
+function openPromo(){
+  promoPopup.style.display="flex";
 }
 
-// SPIN FUNCTION
-document.getElementById("spinBtn").addEventListener("click", async ()=>{
+function closePromoBox(){
+  promoPopup.style.display="none";
+}
 
-  const wheel = document.getElementById("wheel");
-  const spinBtn = document.getElementById("spinBtn");
+closePromo.addEventListener("click", closePromoBox);
+
+/* Auto open on first load */
+if(!localStorage.getItem("promoClosed")){
+  setTimeout(openPromo,800);
+}
+
+spinBtn.addEventListener("click", async ()=>{
+
+  const today = new Date().toDateString();
+
+  if(localStorage.getItem("spinDate") === today){
+    alert("You already used your spin today 🎁");
+    return;
+  }
 
   spinBtn.disabled = true;
 
-  let randomSpin = Math.floor(Math.random()*3600)+2000;
-  wheel.style.transform = "rotate("+randomSpin+"deg)";
+  const random = Math.random();
+  let result = "";
+  let rotation = 0;
 
-  setTimeout(async ()=>{
+  // 50% WIN TOTAL
+  if(random < 0.5){
 
-    // 50% WIN CHANCE
-    let win = Math.random() < 0.5;
-
-    if(win){
-
-      let discount = Math.random() < 0.5 ? "10% OFF" : "20% OFF";
-      let code = "PC"+Math.floor(10000+Math.random()*90000);
-
-      document.getElementById("promoResult").innerHTML = `
-        🎉 YOU WON ${discount}! 🎉 <br><br>
-        CODE: <b>${code}</b> <br><br>
-        Screenshot this and message us 💜
-      `;
-
-      await addDoc(collection(db,"promoWinners"),{
-        discount: discount,
-        code: code,
-        date: new Date()
-      });
+      // RARE 20%
+      if(random < 0.05){
+          result = "20% OFF";
+          rotation = 1440 + 90;
+      }
+      // 10%
+      else if(random < 0.25){
+          result = "10% OFF";
+          rotation = 1440 + 180;
+      }
+      // 5%
+      else{
+          result = "5% OFF";
+          rotation = 1440 + 270;
+      }
 
       launchConfetti();
-      launchFireworks();
+      saveWinner(result);
 
-    } else {
-      document.getElementById("promoResult").innerHTML =
-        "😢 No luck this time! Try again tomorrow 💜";
-    }
+      alert("🎉 YOU WON " + result + "!\nScreenshot and message us 💜");
 
-    localStorage.setItem("lastSpinDate", today);
+  } else {
+      result = "LOSE";
+      rotation = 1440 + 360;
+      alert("No luck today 😢 Try again tomorrow!");
+  }
 
+  wheel.style.transform = `rotate(${rotation}deg)`;
+
+  localStorage.setItem("spinDate", today);
+
+  setTimeout(()=>{
+    spinBtn.disabled = false;
   },4000);
-
 });
 
-// CONFETTI EFFECT
+/* Save winner to Firestore */
+async function saveWinner(prize){
+
+  const code = "PC" + Math.floor(100000 + Math.random()*900000);
+
+  await addDoc(collection(db,"winners"),{
+    code: code,
+    prize: prize,
+    createdAt: new Date()
+  });
+}
+
+/* ================= CONFETTI ================= */
+
 function launchConfetti(){
-  for(let i=0;i<80;i++){
-    let confetti=document.createElement("div");
+
+  const duration = 2000;
+  const end = Date.now() + duration;
+
+  const interval = setInterval(()=>{
+
+    if(Date.now() > end){
+      clearInterval(interval);
+      return;
+    }
+
+    const confetti = document.createElement("div");
     confetti.style.position="fixed";
     confetti.style.width="8px";
     confetti.style.height="8px";
-    confetti.style.background="hsl("+Math.random()*360+"deg,100%,50%)";
-    confetti.style.left=Math.random()*100+"vw";
+    confetti.style.background="hsl("+Math.random()*360+",100%,50%)";
+    confetti.style.left=Math.random()*window.innerWidth+"px";
     confetti.style.top="-10px";
-    confetti.style.zIndex="9999";
+    confetti.style.zIndex="99999";
     confetti.style.borderRadius="50%";
+
     document.body.appendChild(confetti);
 
-    let fall=Math.random()*3+2;
+    let fall = setInterval(()=>{
+      confetti.style.top =
+        parseInt(confetti.style.top)+5+"px";
 
-    confetti.animate([
-      {transform:"translateY(0) rotate(0deg)"},
-      {transform:"translateY(100vh) rotate(720deg)"}
-    ],{
-      duration:fall*1000,
-      easing:"linear"
-    });
+      if(parseInt(confetti.style.top) > window.innerHeight){
+        clearInterval(fall);
+        confetti.remove();
+      }
+    },20);
 
-    setTimeout(()=>confetti.remove(),fall*1000);
-  }
-}
-
-// FIREWORK EFFECT
-function launchFireworks(){
-  for(let i=0;i<30;i++){
-    let fire=document.createElement("div");
-    fire.style.position="fixed";
-    fire.style.width="6px";
-    fire.style.height="6px";
-    fire.style.background="hsl("+Math.random()*360+"deg,100%,50%)";
-    fire.style.borderRadius="50%";
-    fire.style.left="50%";
-    fire.style.top="50%";
-    fire.style.zIndex="9999";
-    document.body.appendChild(fire);
-
-    let x=(Math.random()-0.5)*400;
-    let y=(Math.random()-0.5)*400;
-
-    fire.animate([
-      {transform:"translate(0,0)",opacity:1},
-      {transform:`translate(${x}px,${y}px)`,opacity:0}
-    ],{
-      duration:1200,
-      easing:"ease-out"
-    });
-
-    setTimeout(()=>fire.remove(),1200);
-  }
+  },100);
 }
 
 </script>
