@@ -165,14 +165,21 @@ z-index:9999;
 }
 
 .promo-box{
-background:white;
+background:#ffffff;
+color:#000;
 width:340px;
 padding:25px;
 border-radius:20px;
 text-align:center;
 position:relative;
+transition:0.3s;
 }
 
+/* DARK MODE POPUP */
+body.dark .promo-box{
+background:#1e1e1e;
+color:#ffffff;
+}
 .close-btn{
 position:absolute;
 right:15px;
@@ -373,9 +380,9 @@ height:220px;
 
     <div class="close-btn" onclick="closePromo()">✕</div>
 
-    <h3>Spin & Win 🎉</h3>
+    <h3>Try Your Luck 🎁</h3>
 
-    <button id="spinBtn">SPIN</button>
+    <button id="spinBtn">Try My Luck</button>
 
     <div id="resultBox" class="result-box"></div>
 
@@ -535,7 +542,7 @@ spinBtn.addEventListener("click", async ()=>{
   /* 1 try per day */
   if(localStorage.getItem("spinDate") === today){
     resultBox.innerHTML = `
-      <p style="color:#ff006e;font-weight:600;">
+     <p style="font-weight:600;">
         🎁 You already tried today! Come back tomorrow.
       </p>
     `;
