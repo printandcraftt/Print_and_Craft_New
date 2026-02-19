@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload Promo Codes</title>
+</head>
+<body>
+
+<h2>Uploading Promo Codes...</h2>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { getFirestore, collection, addDoc } 
+from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+/* YOUR FIREBASE CONFIG */
+const firebaseConfig = {
+  apiKey: "AIzaSyCCMd6565SLeJx0zCM5h8bkj5UzSBZeQcA",
+  authDomain: "print-craft-9d708.firebaseapp.com",
+  projectId: "print-craft-9d708",
+  storageBucket: "print-craft-9d708.firebasestorage.app",
+  messagingSenderId: "873230926106",
+  appId: "1:873230926106:web:464e08d3ce7d111b6aeca3"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+/* ================= YOUR CODES ================= */
+
+const codes = [
+
+/* 5% */
+{code:"A7K9X2Q5",discount:5},{code:"M4T8L1Z9",discount:5},{code:"Q9R2V7B6",discount:5},
+{code:"H3Y8N5W2",discount:5},{code:"P6C1X9T4",discount:5},{code:"Z8L2M7Q1",discount:5},
+{code:"B5V9K3R8",discount:5},{code:"D2X7P4N9",discount:5},{code:"T9W1L6C3",discount:5},
+{code:"K4Q8Z2H7",discount:5},{code:"V7M3R9X1",discount:5},{code:"J2L5T8P6",discount:5},
+{code:"N8C4Y1W7",discount:5},{code:"X3Z9Q6M2",discount:5},{code:"R6P1K8V4",discount:5},
+{code:"F9T2L7B5",discount:5},{code:"W1M8C3X9",discount:5},{code:"L7Q4N2Z8",discount:5},
+{code:"Y2V6P9T1",discount:5},{code:"C8R3M7K5",discount:5},{code:"G4X9L2W6",discount:5},
+{code:"P1T8Q5Z3",discount:5},{code:"Z6N2V7M4",discount:5},{code:"B9K3R1X8",discount:5},
+{code:"D7L4C9Q2",discount:5},{code:"T2M8Y6P1",discount:5},{code:"K9X5W3L7",discount:5},
+{code:"V4R1N8Z6",discount:5},{code:"J8C2T9M5",discount:5},{code:"N3Q7P4X1",discount:5},
+{code:"X9L6V2K8",discount:5},{code:"R2W8M5C7",discount:5},{code:"F7Z1T4Q9",discount:5},
+{code:"W6P3N8L2",discount:5},{code:"L1Y9K4R7",discount:5},{code:"Y8M2X6T3",discount:5},
+{code:"C3Q7V1Z9",discount:5},{code:"G9L4P8W2",discount:5},{code:"P5R2N7M1",discount:5},
+{code:"Z2T8K6X4",discount:5},{code:"B7M1Q9L3",discount:5},{code:"D4V8C2P7",discount:5},
+{code:"T6X3R9N1",discount:5},{code:"K1L7Z4M8",discount:5},{code:"V8P2Y6Q3",discount:5},
+{code:"J5N9X1T7",discount:5},{code:"N2R8L4C9",discount:5},{code:"X7M3P6V1",discount:5},
+{code:"R4Q9T2Z8",discount:5},{code:"F1L6W8K3",discount:5},
+
+/* 10% */
+{code:"H9K2M7X4",discount:10},{code:"Q4T8Z1L6",discount:10},{code:"P7R3V9C2",discount:10},
+{code:"Z1M6K8T5",discount:10},{code:"B8X2Q4N9",discount:10},{code:"D5L9R1V7",discount:10},
+{code:"T3P7M2X8",discount:10},{code:"K6Z4C9L1",discount:10},{code:"V2N8T5Q7",discount:10},
+{code:"J9R1X6M3",discount:10},{code:"N4L7P2Z8",discount:10},{code:"X8Q3V1K6",discount:10},
+{code:"R1M9T4C7",discount:10},{code:"F6Z2L8P3",discount:10},{code:"W3X7N5Q1",discount:10},
+{code:"L9T4K2R8",discount:10},{code:"Y7M1P6V4",discount:10},{code:"C2Q8Z5L9",discount:10},
+{code:"G8R4X1N7",discount:10},{code:"P4L9T2M6",discount:10},{code:"Z3K7V8Q1",discount:10},
+{code:"B1X6P4R9",discount:10},{code:"D9M2L8T5",discount:10},{code:"T7Q1Z4V6",discount:10},
+{code:"K2R8N3X9",discount:10},{code:"V6L4M7P1",discount:10},{code:"J3T9Q2Z8",discount:10},
+{code:"N8X1R5L4",discount:10},{code:"X5P7M9C2",discount:10},{code:"R2Z6T4K8",discount:10},
+{code:"F9L3V1Q7",discount:10},{code:"W4M8X2P6",discount:10},{code:"L6Q1N9T3",discount:10},
+{code:"Y1R7Z4M8",discount:10},{code:"C7P2L6X9",discount:10},{code:"G2T8V1Q4",discount:10},
+{code:"P9M4R6Z2",discount:10},{code:"Z4L1X7N8",discount:10},{code:"B6Q9T3M1",discount:10},
+{code:"D1R8P5X7",discount:10},{code:"T8L2Z6V3",discount:10},{code:"K5M7Q1R9",discount:10},
+{code:"V1X4N8T6",discount:10},{code:"J7P3L9Q2",discount:10},{code:"N6R2M4Z8",discount:10},
+{code:"X2L8V5P7",discount:10},{code:"R7Q1T9M3",discount:10},{code:"F4Z6X2L8",discount:10},
+{code:"W8P5N1R6",discount:10},{code:"L3T7M9Q4",discount:10},
+
+/* 20% */
+{code:"Z9X4M2T7",discount:20},{code:"K7R1P8L3",discount:20},{code:"V3Q9N6X2",discount:20},
+{code:"J8T2M5Z1",discount:20},{code:"N5L7R4X9",discount:20},{code:"X1P6Q8M3",discount:20},
+{code:"R8Z3T1L5",discount:20},{code:"F2M9V4Q7",discount:20},{code:"W6L1X8P2",discount:20},
+{code:"L4R7Z2M9",discount:20},{code:"Y9Q2T6X1",discount:20},{code:"C1P8L4R7",discount:20},
+{code:"G7M3Z9Q2",discount:20},{code:"P2X6T8L5",discount:20},{code:"Z6R1M4V8",discount:20},
+{code:"B3Q7L9T2",discount:20},{code:"D8P2X5M1",discount:20},{code:"T1L9R6Q4",discount:20},
+{code:"K9M4Z2X7",discount:20},{code:"V4T8L1P6",discount:20},{code:"J6R2Q9M3",discount:20},
+{code:"N2X7L5Z8",discount:20},{code:"X7M1T4Q9",discount:20},{code:"R5L8P2Z6",discount:20},
+{code:"F1Q9M3X7",discount:20},{code:"W9Z4T2L8",discount:20},{code:"L2P7R5M1",discount:20},
+{code:"Y4X8Q1Z6",discount:20},{code:"C6M2L9T4",discount:20},{code:"G1R8P3Z7",discount:20},
+{code:"P8L4X6M2",discount:20},{code:"Z2Q5T9R1",discount:20},{code:"B7M1L8X4",discount:20},
+{code:"D4Z6P2Q9",discount:20},{code:"T9R3M7L1",discount:20},{code:"K3X5Q8Z2",discount:20},
+{code:"V8L1T4M6",discount:20},{code:"J2Q7R9X5",discount:20},{code:"N7M4P1Z8",discount:20},
+{code:"X4T9L2Q6",discount:20},{code:"R1Z6M8P3",discount:20},{code:"F7L3X9Q2",discount:20},
+{code:"W2M8R5Z1",discount:20},{code:"L8Q4T1X7",discount:20},{code:"Y3P9M2L6",discount:20},
+{code:"C9R5Z7X1",discount:20},{code:"G5L2M8Q4",discount:20},{code:"P1T6X3Z9",discount:20},
+{code:"Z7M3L5R2",discount:20},{code:"B2X9Q4T8",discount:20}
+
+];
+
+/* Upload */
+
+for(const item of codes){
+  await addDoc(collection(db,"promo_codes"),{
+    code: item.code,
+    discount: item.discount,
+    used: false,
+    createdAt: new Date()
+  });
+}
+
+document.body.innerHTML = "<h2>✅ ALL 150 CODES UPLOADED SUCCESSFULLY!</h2>";
+
+</script>
+</body>
+</html>
