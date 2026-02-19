@@ -21,7 +21,7 @@ background:#f5f0ff;
 color:#333;
 }
 
-/* NAV */
+/* NAVBAR */
 nav{
 background:white;
 padding:15px 20px;
@@ -43,7 +43,7 @@ color:#6a00f4;
 nav ul{
 list-style:none;
 display:flex;
-gap:20px;
+gap:15px;
 align-items:center;
 }
 
@@ -54,13 +54,14 @@ font-weight:600;
 font-size:14px;
 }
 
-#darkToggle{
+.nav-btn{
 background:#6a00f4;
 color:white;
 border:none;
 padding:6px 14px;
 border-radius:20px;
 cursor:pointer;
+font-size:13px;
 }
 
 /* HERO */
@@ -86,6 +87,8 @@ margin-bottom:40px;
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
 gap:20px;
+max-width:1200px;
+margin:auto;
 }
 
 .product{
@@ -126,7 +129,7 @@ margin-top:40px;
 .reviews-section{
 padding:60px 20px;
 text-align:center;
-background:#fff;
+background:white;
 }
 
 .review-card{
@@ -134,12 +137,14 @@ background:#f5f0ff;
 padding:20px;
 border-radius:15px;
 margin-bottom:20px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
 
 .stars{
 display:flex;
 justify-content:center;
 gap:8px;
+margin:10px 0;
 }
 
 .stars span{
@@ -152,29 +157,7 @@ opacity:0.4;
 opacity:1;
 }
 
-footer{
-background:#6a00f4;
-color:white;
-text-align:center;
-padding:30px;
-margin-top:60px;
-}
-
-/* DARK MODE */
-body.dark{
-background:#121212;
-color:#f1f1f1;
-}
-body.dark nav,
-body.dark footer{
-background:#1e1e1e;
-}
-body.dark .product,
-body.dark .review-card{
-background:#1f1f1f;
-}
-
-/* PROMO POPUP */
+/* PROMO */
 .promo-popup{
 position:fixed;
 inset:0;
@@ -217,9 +200,53 @@ background:conic-gradient(
 );
 transition:transform 4s ease-out;
 }
+
+#spinBtn{
+padding:10px 20px;
+border:none;
+border-radius:25px;
+background:#6a00f4;
+color:white;
+cursor:pointer;
+font-weight:600;
+}
+
+footer{
+background:#6a00f4;
+color:white;
+text-align:center;
+padding:30px;
+margin-top:60px;
+}
+
+/* DARK MODE */
+body.dark{
+background:#121212;
+color:#f1f1f1;
+}
+body.dark nav,
+body.dark footer{
+background:#1e1e1e;
+}
+body.dark .product,
+body.dark .review-card{
+background:#1f1f1f;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+nav{
+flex-direction:column;
+gap:10px;
+}
+.hero{
+padding:60px 15px;
+}
+}
 </style>
 </head>
 <body>
+
 <!-- NAVIGATION -->
 <nav>
   <div class="logo">Print & Craft 💜</div>
@@ -227,7 +254,8 @@ transition:transform 4s ease-out;
     <li><a href="products.html">Products</a></li>
     <li><a href="reviews.html">All Reviews</a></li>
     <li><a href="admin.html">Admin</a></li>
-    <li><button id="darkToggle">🌙</button></li>
+    <li><button class="nav-btn" onclick="openPromo()">🎉 Spin</button></li>
+    <li><button class="nav-btn" id="darkToggle">🌙</button></li>
   </ul>
 </nav>
 
@@ -290,7 +318,7 @@ transition:transform 4s ease-out;
   <a href="products.html" class="view-btn">View All Products 💜</a>
 </section>
 
-<!-- REVIEWS SECTION -->
+<!-- REVIEWS -->
 <section class="reviews-section">
   <h2>Customer Feedback 💜</h2>
 
@@ -301,14 +329,12 @@ transition:transform 4s ease-out;
 
   <div id="reviewsContainer"></div>
 
-  <a href="reviews.html" class="view-btn" style="margin-bottom:30px;">
-    View All Reviews 💜
-  </a>
+  <a href="reviews.html" class="view-btn" style="margin-top:20px;">View All Reviews 💜</a>
 
   <h3 style="margin-top:40px;">Leave a Review ✨</h3>
 
-  <form id="reviewForm" style="max-width:400px;margin:0 auto;display:flex;flex-direction:column;gap:15px;">
-    <input type="text" id="name" placeholder="Your Name" required style="padding:12px;border-radius:10px;border:1px solid #ddd;">
+  <form id="reviewForm" style="max-width:400px;margin:auto;">
+    <input type="text" id="name" placeholder="Your Name" required style="width:100%;padding:10px;margin:10px 0;border-radius:10px;border:1px solid #ddd;">
 
     <div class="stars">
       <span data-value="1">⭐</span>
@@ -318,14 +344,26 @@ transition:transform 4s ease-out;
       <span data-value="5">⭐</span>
     </div>
 
-    <textarea id="reviewText" placeholder="Write your review..." required style="padding:12px;border-radius:10px;border:1px solid #ddd;"></textarea>
+    <textarea id="reviewText" placeholder="Write your review..." required style="width:100%;padding:10px;margin:10px 0;border-radius:10px;border:1px solid #ddd;"></textarea>
 
-    <button type="submit" style="padding:12px;border:none;border-radius:25px;background:#6a00f4;color:white;font-weight:600;">
-      Submit Review 💜
-    </button>
+    <button type="submit" class="nav-btn" style="width:100%;margin-top:10px;">Submit Review 💜</button>
   </form>
 </section>
-  
+
+<!-- PROMO POPUP -->
+<div class="promo-popup" id="promoPopup">
+  <div class="promo-box">
+    <div class="close-btn" onclick="closePromo()">✕</div>
+    <h3>Spin & Win 🎉</h3>
+    <div class="wheel" id="wheel"></div>
+    <button id="spinBtn">SPIN</button>
+    <p id="promoResult" style="margin-top:15px;font-weight:600;"></p>
+  </div>
+</div>
+
+<footer>
+  <p>Made with 💜 by Print & Craft</p>
+</footer>
 <script type="module">
 
 /* ================= FIREBASE IMPORTS ================= */
@@ -339,7 +377,7 @@ import {
   orderBy 
 } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
-/* ================= YOUR FIREBASE CONFIG ================= */
+/* ================= FIREBASE CONFIG ================= */
 const firebaseConfig = {
   apiKey: "AIzaSyCCMd6565SLeJx0zCM5h8bkj5UzSBZeQcA",
   authDomain: "print-craft-9d708.firebaseapp.com",
@@ -351,12 +389,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
-/* Make db global (promo + admin use) */
 window.db = db;
 
 /* ================= DARK MODE ================= */
-
 const toggle = document.getElementById("darkToggle");
 
 if(localStorage.getItem("darkMode") === "enabled"){
@@ -376,28 +411,22 @@ toggle.addEventListener("click",()=>{
 let selectedRating = 0;
 const stars = document.querySelectorAll(".stars span");
 
-/* Select stars */
 stars.forEach(star=>{
   star.addEventListener("click",()=>{
     selectedRating = star.dataset.value;
-
     stars.forEach(s=>s.classList.remove("active"));
-
     for(let i=0;i<selectedRating;i++){
       stars[i].classList.add("active");
     }
   });
 });
 
-/* Mask name like Li**** */
 function maskName(name){
   if(name.length <= 2) return name;
   return name.substring(0,2) + "****";
 }
 
-/* Load ONLY 3 latest reviews */
 async function loadReviews(){
-
   const container = document.getElementById("reviewsContainer");
   container.innerHTML = "";
 
@@ -410,17 +439,15 @@ async function loadReviews(){
   );
 
   const snapshot = await getDocs(q);
-
-  const docs = snapshot.docs.slice(0,3); // ONLY 3
+  const docs = snapshot.docs.slice(0,3); // SHOW ONLY 3
 
   docs.forEach(doc=>{
     const review = doc.data();
-
     total += review.rating;
     count++;
 
     container.innerHTML += `
-      <div style="background:#f5f0ff;padding:20px;border-radius:15px;margin-bottom:20px;">
+      <div class="review-card" style="background:#f5f0ff;padding:20px;border-radius:15px;margin-bottom:15px;">
         <h4 style="color:#6a00f4;">${maskName(review.name)}</h4>
         <p>${"⭐".repeat(review.rating)}</p>
         <p>${review.text}</p>
@@ -436,7 +463,6 @@ async function loadReviews(){
 
 loadReviews();
 
-/* Submit review */
 document.getElementById("reviewForm")
 .addEventListener("submit", async function(e){
 
@@ -460,159 +486,133 @@ document.getElementById("reviewForm")
 
   loadReviews();
 });
+/* ================= PROMO WHEEL SYSTEM ================= */
 
-</script>
-<!-- ================= PROMO POPUP ================= -->
+// Auto popup after 1 second
+window.addEventListener("load",()=>{
+  setTimeout(()=>{
+    document.getElementById("promoPopup").style.display="flex";
+  },1000);
+});
 
-<div class="promo-popup" id="promoPopup">
-  <div class="promo-box">
-    <span class="close-btn" onclick="closePromo()">✖</span>
-    <h3>Spin & Win Discount 🎁</h3>
+// Manual open button
+document.getElementById("openPromoBtn").addEventListener("click",()=>{
+  document.getElementById("promoPopup").style.display="flex";
+});
 
-    <div class="wheel" id="wheel"></div>
+// Close popup
+document.getElementById("closePromo").addEventListener("click",()=>{
+  document.getElementById("promoPopup").style.display="none";
+});
 
-    <button id="spinBtn">SPIN NOW 🎡</button>
-
-    <p id="promoResult" style="margin-top:15px;font-weight:600;"></p>
-  </div>
-</div>
-
-<!-- ================= CONFETTI CANVAS ================= -->
-<canvas id="confettiCanvas"
-style="position:fixed;inset:0;pointer-events:none;z-index:9998;"></canvas>
-
-<script type="module">
-
-/* ================= PROMO SYSTEM ================= */
-
-import { collection, addDoc } 
-from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
-
-const wheel = document.getElementById("wheel");
-const spinBtn = document.getElementById("spinBtn");
-const resultText = document.getElementById("promoResult");
-const popup = document.getElementById("promoPopup");
-
-let spinning = false;
-
-/* 1 TRY PER DAY */
+// 1 SPIN PER DAY
 const today = new Date().toDateString();
-if(localStorage.getItem("promoDate") === today){
-  spinBtn.disabled = true;
-  resultText.innerText = "You already tried today 💜";
+if(localStorage.getItem("lastSpinDate") === today){
+  document.getElementById("spinBtn").disabled = true;
+  document.getElementById("spinBtn").innerText = "Come Back Tomorrow 💜";
 }
 
-/* Close popup */
-window.closePromo = function(){
-  popup.style.display = "none";
-};
+// SPIN FUNCTION
+document.getElementById("spinBtn").addEventListener("click", async ()=>{
 
-/* Spin Logic */
-spinBtn.addEventListener("click", async ()=>{
+  const wheel = document.getElementById("wheel");
+  const spinBtn = document.getElementById("spinBtn");
 
-  if(spinning) return;
-  spinning = true;
+  spinBtn.disabled = true;
 
-  const random = Math.random();
-  let discount = null;
-
-  /* 50% WIN CHANCE */
-  if(random < 0.25){
-    discount = "10% OFF";
-  }else if(random < 0.5){
-    discount = "20% OFF";
-  }
-
-  const rotation = 3600 + Math.floor(Math.random()*360);
-  wheel.style.transform = `rotate(${rotation}deg)`;
+  let randomSpin = Math.floor(Math.random()*3600)+2000;
+  wheel.style.transform = "rotate("+randomSpin+"deg)";
 
   setTimeout(async ()=>{
 
-    if(discount){
+    // 50% WIN CHANCE
+    let win = Math.random() < 0.5;
 
-      const code = "PC" + Math.floor(10000 + Math.random()*90000);
+    if(win){
 
-      resultText.innerHTML = `
-        🎉 YOU WON ${discount}!<br>
-        Code: <b>${code}</b><br>
-        Screenshot & Message Us 💜
+      let discount = Math.random() < 0.5 ? "10% OFF" : "20% OFF";
+      let code = "PC"+Math.floor(10000+Math.random()*90000);
+
+      document.getElementById("promoResult").innerHTML = `
+        🎉 YOU WON ${discount}! 🎉 <br><br>
+        CODE: <b>${code}</b> <br><br>
+        Screenshot this and message us 💜
       `;
+
+      await addDoc(collection(db,"promoWinners"),{
+        discount: discount,
+        code: code,
+        date: new Date()
+      });
 
       launchConfetti();
       launchFireworks();
 
-      /* SAVE WINNER TO FIREBASE */
-      await addDoc(collection(window.db,"winners"),{
-        code: code,
-        discount: discount,
-        createdAt: new Date()
-      });
-
-    }else{
-      resultText.innerText = "Try Again Tomorrow 💔";
+    } else {
+      document.getElementById("promoResult").innerHTML =
+        "😢 No luck this time! Try again tomorrow 💜";
     }
 
-    localStorage.setItem("promoDate", today);
-    spinBtn.disabled = true;
-    spinning = false;
+    localStorage.setItem("lastSpinDate", today);
 
   },4000);
 
 });
 
-/* ================= CONFETTI ================= */
-
+// CONFETTI EFFECT
 function launchConfetti(){
-  const canvas = document.getElementById("confettiCanvas");
-  const ctx = canvas.getContext("2d");
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  for(let i=0;i<80;i++){
+    let confetti=document.createElement("div");
+    confetti.style.position="fixed";
+    confetti.style.width="8px";
+    confetti.style.height="8px";
+    confetti.style.background="hsl("+Math.random()*360+"deg,100%,50%)";
+    confetti.style.left=Math.random()*100+"vw";
+    confetti.style.top="-10px";
+    confetti.style.zIndex="9999";
+    confetti.style.borderRadius="50%";
+    document.body.appendChild(confetti);
 
-  let pieces = [];
+    let fall=Math.random()*3+2;
 
-  for(let i=0;i<150;i++){
-    pieces.push({
-      x: Math.random()*canvas.width,
-      y: Math.random()*canvas.height - canvas.height,
-      size: Math.random()*8+4,
-      speed: Math.random()*3+2
+    confetti.animate([
+      {transform:"translateY(0) rotate(0deg)"},
+      {transform:"translateY(100vh) rotate(720deg)"}
+    ],{
+      duration:fall*1000,
+      easing:"linear"
     });
+
+    setTimeout(()=>confetti.remove(),fall*1000);
   }
-
-  function update(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    pieces.forEach(p=>{
-      p.y += p.speed;
-      ctx.fillStyle = "#bb86fc";
-      ctx.fillRect(p.x,p.y,p.size,p.size);
-    });
-    requestAnimationFrame(update);
-  }
-
-  update();
-
-  setTimeout(()=>{
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-  },3000);
 }
 
-/* ================= FIREWORKS ================= */
-
+// FIREWORK EFFECT
 function launchFireworks(){
-  const canvas = document.getElementById("confettiCanvas");
-  const ctx = canvas.getContext("2d");
+  for(let i=0;i<30;i++){
+    let fire=document.createElement("div");
+    fire.style.position="fixed";
+    fire.style.width="6px";
+    fire.style.height="6px";
+    fire.style.background="hsl("+Math.random()*360+"deg,100%,50%)";
+    fire.style.borderRadius="50%";
+    fire.style.left="50%";
+    fire.style.top="50%";
+    fire.style.zIndex="9999";
+    document.body.appendChild(fire);
 
-  for(let i=0;i<20;i++){
-    setTimeout(()=>{
-      ctx.beginPath();
-      ctx.arc(
-        Math.random()*canvas.width,
-        Math.random()*canvas.height/2,
-        5,0,Math.PI*2
-      );
-      ctx.fillStyle="#9d4edd";
-      ctx.fill();
-    }, i*150);
+    let x=(Math.random()-0.5)*400;
+    let y=(Math.random()-0.5)*400;
+
+    fire.animate([
+      {transform:"translate(0,0)",opacity:1},
+      {transform:`translate(${x}px,${y}px)`,opacity:0}
+    ],{
+      duration:1200,
+      easing:"ease-out"
+    });
+
+    setTimeout(()=>fire.remove(),1200);
   }
 }
 
