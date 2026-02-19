@@ -182,44 +182,6 @@ cursor:pointer;
 color:#6a00f4;
 }
 
-.pointer{
-width:0;
-height:0;
-border-left:14px solid transparent;
-border-right:14px solid transparent;
-border-bottom:20px solid #ff006e;
-margin:0 auto 15px;
-}
-
-.wheel{
-width:240px;
-height:240px;
-border-radius:50%;
-margin:10px auto;
-border:6px solid #6a00f4;
-position:relative;
-transition:transform 4s cubic-bezier(.17,.67,.83,.67);
-background:conic-gradient(
-#ff006e 0deg 72deg,
-#8338ec 72deg 144deg,
-#ff006e 144deg 216deg,
-#8338ec 216deg 288deg,
-#3a0ca3 288deg 360deg
-);
-}
-
-.wheel span{
-position:absolute;
-left:50%;
-top:50%;
-transform-origin:0% 0%;
-font-weight:700;
-font-size:16px;
-color:white;
-width:120px;
-text-align:center;
-}
-
 .result-box{
 margin-top:15px;
 font-weight:600;
@@ -413,17 +375,6 @@ height:220px;
 
     <h3>Spin & Win 🎉</h3>
 
-    <div class="pointer"></div>
-
-    <div id="wheel" class="wheel">
-      <!-- Labels -->
-      <span style="transform:rotate(36deg) translate(-50%, -120px) rotate(-36deg);">5% OFF</span>
-      <span style="transform:rotate(108deg) translate(-50%, -120px) rotate(-108deg);">10% OFF</span>
-      <span style="transform:rotate(180deg) translate(-50%, -120px) rotate(-180deg);">LOSE</span>
-      <span style="transform:rotate(252deg) translate(-50%, -120px) rotate(-252deg);">10% OFF</span>
-      <span style="transform:rotate(324deg) translate(-50%, -120px) rotate(-324deg);">20% OFF</span>
-    </div>
-
     <button id="spinBtn">SPIN</button>
 
     <div id="resultBox" class="result-box"></div>
@@ -556,82 +507,55 @@ document.getElementById("reviewForm")
 
   loadReviews();
 });
-
-/* ================= PROMO SYSTEM ================= */
+/* ================= SIMPLE TRY YOUR LUCK ================= */
 
 const popup = document.getElementById("promoPopup");
-const wheel = document.getElementById("wheel");
 const spinBtn = document.getElementById("spinBtn");
 const resultBox = document.getElementById("resultBox");
 
-let spinning = false;
-
-/* Open Automatically On Page Load */
+/* Open popup automatically */
 window.addEventListener("load",()=>{
   popup.style.display = "flex";
 });
 
+/* Open from navbar button */
 window.openPromo = function(){
   popup.style.display = "flex";
 }
 
+/* Close popup */
 window.closePromo = function(){
   popup.style.display = "none";
 }
 
 spinBtn.addEventListener("click", async ()=>{
 
-  if(spinning) return;
-
   const today = new Date().toDateString();
 
+  /* 1 try per day */
   if(localStorage.getItem("spinDate") === today){
-    alert("You already used your spin today 🎁");
+    resultBox.innerHTML = `
+      <p style="color:#ff006e;font-weight:600;">
+        🎁 You already tried today! Come back tomorrow.
+      </p>
+    `;
     return;
   }
 
-  spinning = true;
-
-  /* ================= WIN LOGIC ================= */
-  let outcome;
+  let win = Math.random() < 0.5; // 50% chance
   let discount = null;
 
-  const rand = Math.random();
+  if(win){
 
-  if(rand < 0.50){
-    // WIN (50%)
     const prizeRand = Math.random();
 
     if(prizeRand < 0.55){
-      outcome = "10% OFF";
       discount = 10;
     }else if(prizeRand < 0.85){
-      outcome = "5% OFF";
       discount = 5;
     }else{
-      outcome = "20% OFF"; // rare
-      discount = 20;
+      discount = 20; // rare
     }
-
-  }else{
-    outcome = "LOSE";
-  }
-
-  /* ================= ROTATION ================= */
-  let rotation;
-
-  switch(outcome){
-    case "5% OFF": rotation = 360*5 + 36; break;
-    case "10% OFF": rotation = 360*5 + 108; break;
-    case "LOSE": rotation = 360*5 + 180; break;
-    case "20% OFF": rotation = 360*5 + 324; break;
-  }
-
-  wheel.style.transform = `rotate(${rotation}deg)`;
-
-setTimeout(async ()=>{
-
-  if(outcome !== "LOSE"){
 
     const code = "PC" + Math.random().toString(36).substring(2,8).toUpperCase();
 
@@ -652,18 +576,16 @@ setTimeout(async ()=>{
       createdAt: new Date()
     });
 
-  } else {
+  }else{
 
     resultBox.innerHTML = `
-      <h3 style="color:#6a00f4;">😢 Try Again Tomorrow!</h3>
+      <h3 style="color:#6a00f4;">😢 Not this time!</h3>
+      <p>Try again tomorrow 💜</p>
     `;
 
   }
 
   localStorage.setItem("spinDate", today);
-  spinning = false;
-
-}, 4000);
 
 });
 
