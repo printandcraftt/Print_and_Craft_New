@@ -452,7 +452,11 @@ import {
   addDoc, 
   getDocs, 
   query, 
-  orderBy 
+  orderBy,
+  where,
+  limit,
+  updateDoc,
+  doc
 } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
 /* ================= FIREBASE CONFIG ================= */
@@ -602,7 +606,7 @@ spinBtn.addEventListener("click", async ()=>{
   let win = Math.random() < 0.5; // 50% chance
   let discount = null;
 
-  if(win){
+ if(win){
 
     const prizeRand = Math.random();
 
@@ -611,10 +615,41 @@ spinBtn.addEventListener("click", async ()=>{
     }else if(prizeRand < 0.85){
       discount = 5;
     }else{
-      discount = 20; // rare
+      discount = 20;
     }
 
-    const code = "PC" + Math.random().toString(36).substring(2,8).toUpperCase();
+    /* 🔥 GET AVAILABLE CODE FROM FIRESTORE */
+    const q = query(
+        collection(db, "promo_codes"),
+        where("discount", "==", discount),
+        where("used", "==", false),
+        limit(1)
+    );
+
+    const snapshot = await getDocs(q);
+
+    if(snapshot.empty){
+        resultBox.innerHTML = `
+          <h3>No more codes available 😢</h3>
+        `;
+        return;
+    }
+
+    const codeDoc = snapshot.docs[0];
+    const codeData = codeDoc.data();
+    const code = codeData.code;
+
+    /* Mark code as used */
+    await updateDoc(doc(db, "promo_codes", codeDoc.id), {
+        used: true
+    });
+
+    /* Save winner */
+    await addDoc(collection(db,"promo_winners"),{
+        code: code,
+        discount: discount,
+        createdAt: new Date()
+    });
 
     resultBox.innerHTML = `
       <h3 style="color:#6a00f4;">🎉 CONGRATULATIONS!</h3>
@@ -627,13 +662,7 @@ spinBtn.addEventListener("click", async ()=>{
     startConfetti();
     firework();
 
-    await addDoc(collection(db,"promo_winners"),{
-      code: code,
-      discount: discount,
-      createdAt: new Date()
-    });
-
-  }else{
+}else{
 
     resultBox.innerHTML = `
       <h3 style="color:#6a00f4;">😢 Not this time!</h3>
