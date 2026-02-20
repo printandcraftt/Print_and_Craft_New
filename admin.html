@@ -20,7 +20,6 @@ body{
   color:#333;
 }
 
-/* NAV */
 nav{
   background:white;
   padding:15px 20px;
@@ -41,7 +40,6 @@ nav a{
   font-weight:600;
 }
 
-/* LOGIN */
 .login-box{
   max-width:350px;
   margin:100px auto;
@@ -69,7 +67,6 @@ nav a{
   cursor:pointer;
 }
 
-/* DASHBOARD */
 .dashboard{
   display:none;
   padding:40px 20px;
@@ -84,7 +81,6 @@ nav a{
   margin-bottom:20px;
 }
 
-/* CARDS */
 .card{
   background:white;
   padding:15px;
@@ -93,7 +89,6 @@ nav a{
   margin-bottom:15px;
 }
 
-/* CODE GRID */
 .codes-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -122,7 +117,6 @@ nav a{
   font-weight:600;
 }
 
-/* ACTION BUTTONS */
 .action-btn{
   margin-top:10px;
   padding:6px 12px;
@@ -142,20 +136,6 @@ nav a{
   background:#6a00f4;
   color:white;
 }
-
-/* DARK MODE */
-body.dark{
-  background:#121212;
-  color:white;
-}
-
-body.dark nav,
-body.dark .login-box,
-body.dark .card,
-body.dark .code-card{
-  background:#1f1f1f;
-  color:white;
-}
 </style>
 </head>
 
@@ -166,35 +146,29 @@ body.dark .code-card{
   <a href="index.html">Back to Site</a>
 </nav>
 
-<!-- LOGIN -->
 <div class="login-box" id="loginBox">
   <h2>Admin Login 🔐</h2>
   <input type="password" id="adminPassword" placeholder="Enter Password">
   <button onclick="checkPassword()">Login</button>
 </div>
 
-<!-- DASHBOARD -->
 <div class="dashboard" id="dashboard">
 
-  <!-- Visitor Counter -->
   <div class="section">
     <h2>📊 Admin Analytics</h2>
     <div id="visitorCount" class="card">Loading...</div>
   </div>
 
-  <!-- WINNERS -->
   <div class="section">
     <h2>Promo Winners 🎉</h2>
     <div id="winnersContainer"></div>
   </div>
 
-  <!-- REVIEWS -->
   <div class="section">
     <h2>Customer Reviews 💬</h2>
     <div id="reviewsContainer"></div>
   </div>
 
-  <!-- PROMO CODES -->
   <div class="section">
     <h2>Promo Codes Management 🎁</h2>
 
@@ -206,7 +180,6 @@ body.dark .code-card{
 
     <h3 style="margin-top:30px;">20% Discount Codes</h3>
     <div id="codes20" class="codes-grid"></div>
-
   </div>
 
 </div>
@@ -239,50 +212,25 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const ADMIN_PASSWORD = "printcraft2026";
-const SESSION_DURATION = 5 * 60 * 1000; // 5 minutes
-
-/* ========================= */
-/* CHECK SESSION ON LOAD */
-/* ========================= */
+const SESSION_DURATION = 5 * 60 * 1000;
 
 window.addEventListener("load", checkSession);
 
 function checkSession(){
   const loginTime = localStorage.getItem("adminLoginTime");
-
-  if(loginTime){
-    const now = Date.now();
-    const diff = now - parseInt(loginTime);
-
-    if(diff < SESSION_DURATION){
-      openDashboard();
-    }else{
-      localStorage.removeItem("adminLoginTime");
-    }
+  if(loginTime && Date.now() - parseInt(loginTime) < SESSION_DURATION){
+    openDashboard();
+    loadAll();
   }
 }
 
-/* ========================= */
-/* LOGIN */
-/* ========================= */
-
-window.checkPassword = async function(){
-
+window.checkPassword = function(){
   const input = document.getElementById("adminPassword").value;
-
   if(input === ADMIN_PASSWORD){
-
     localStorage.setItem("adminLoginTime", Date.now());
-
     openDashboard();
-
-    await increaseVisitorCount();
-    loadVisitorCount();
-    loadWinners();
-    loadReviews();
-    loadPromoCodes();
-
-  }else{
+    loadAll();
+  } else {
     alert("Wrong Password ❌");
   }
 };
@@ -292,14 +240,18 @@ function openDashboard(){
   document.getElementById("dashboard").style.display="block";
 }
 
-/* ========================= */
-/* VISITOR COUNTER */
-/* ========================= */
+async function loadAll(){
+  await increaseVisitorCount().catch(()=>{});
+  await loadVisitorCount().catch(()=>{});
+  await loadWinners().catch(()=>{});
+  await loadReviews().catch(()=>{});
+  await loadPromoCodes().catch(()=>{});
+}
 
+/* ANALYTICS */
 async function increaseVisitorCount(){
   const ref = doc(db,"analytics","visits");
   const snap = await getDoc(ref);
-
   if(snap.exists()){
     await updateDoc(ref,{ count: increment(1) });
   }else{
@@ -309,29 +261,18 @@ async function increaseVisitorCount(){
 
 async function loadVisitorCount(){
   const snap = await getDoc(doc(db,"analytics","visits"));
-  const box = document.getElementById("visitorCount");
-
-  if(snap.exists()){
-    box.innerHTML = `<strong>${snap.data().count}</strong> total admin logins`;
-  }else{
-    box.innerHTML = "0 visits";
-  }
+  document.getElementById("visitorCount").innerHTML =
+    snap.exists() ? `<strong>${snap.data().count}</strong> total admin logins` : "0 visits";
 }
 
-/* ========================= */
 /* WINNERS */
-/* ========================= */
-
 async function loadWinners(){
   const container = document.getElementById("winnersContainer");
-  container.innerHTML = "";
-
+  container.innerHTML="";
   const snapshot = await getDocs(collection(db,"promo_winners"));
-
   snapshot.forEach(docSnap=>{
     const data = docSnap.data();
-
-    container.innerHTML += `
+    container.innerHTML+=`
       <div class="card">
         <strong>${data.code}</strong><br>
         ${data.discount}% OFF
@@ -349,20 +290,14 @@ window.deleteWinner = async function(id){
   }
 };
 
-/* ========================= */
 /* REVIEWS */
-/* ========================= */
-
 async function loadReviews(){
   const container = document.getElementById("reviewsContainer");
-  container.innerHTML = "";
-
+  container.innerHTML="";
   const snapshot = await getDocs(collection(db,"reviews"));
-
   snapshot.forEach(docSnap=>{
     const data = docSnap.data();
-
-    container.innerHTML += `
+    container.innerHTML+=`
       <div class="card">
         <strong>${data.name}</strong><br>
         ⭐ ${data.rating}<br>
@@ -381,48 +316,41 @@ window.deleteReview = async function(id){
   }
 };
 
-/* ========================= */
 /* PROMO CODES */
-/* ========================= */
-
 async function loadPromoCodes(){
+  const codes5=document.getElementById("codes5");
+  const codes10=document.getElementById("codes10");
+  const codes20=document.getElementById("codes20");
 
-  const codes5 = document.getElementById("codes5");
-  const codes10 = document.getElementById("codes10");
-  const codes20 = document.getElementById("codes20");
+  codes5.innerHTML="";
+  codes10.innerHTML="";
+  codes20.innerHTML="";
 
-  codes5.innerHTML = "";
-  codes10.innerHTML = "";
-  codes20.innerHTML = "";
-
-  const snapshot = await getDocs(collection(db,"promo_codes"));
+  const snapshot=await getDocs(collection(db,"promo_codes"));
 
   snapshot.forEach(docSnap=>{
-    const data = docSnap.data();
+    const data=docSnap.data();
 
-    const container =
-      data.discount === 5 ? codes5 :
-      data.discount === 10 ? codes10 :
+    const container=
+      data.discount===5?codes5:
+      data.discount===10?codes10:
       codes20;
 
-    container.innerHTML += `
-      <div class="code-card ${data.used ? "used" : ""}">
+    container.innerHTML+=`
+      <div class="code-card ${data.used?"used":""}">
         <strong>${data.code}</strong><br>
-        <span class="${data.used ? "status-used" : "status-available"}">
-          ${data.used ? "Used ❌" : "Available ✅"}
+        <span class="${data.used?"status-used":"status-available"}">
+          ${data.used?"Used ❌":"Available ✅"}
         </span>
-        ${!data.used ? 
-          `<br><button class="action-btn use-btn" onclick="markUsed('${docSnap.id}')">Mark as Used</button>` 
-          : ""
-        }
+        ${!data.used?`<br><button class="action-btn use-btn" onclick="markUsed('${docSnap.id}')">Mark as Used</button>`:""}
       </div>
     `;
   });
 }
 
-window.markUsed = async function(id){
+window.markUsed=async function(id){
   if(confirm("Mark this code as used?")){
-    await updateDoc(doc(db,"promo_codes",id),{ used:true });
+    await updateDoc(doc(db,"promo_codes",id),{used:true});
     loadPromoCodes();
   }
 };
