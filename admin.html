@@ -239,6 +239,32 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const ADMIN_PASSWORD = "printcraft2026";
+const SESSION_DURATION = 5 * 60 * 1000; // 5 minutes
+
+/* ========================= */
+/* CHECK SESSION ON LOAD */
+/* ========================= */
+
+window.addEventListener("load", checkSession);
+
+function checkSession(){
+  const loginTime = localStorage.getItem("adminLoginTime");
+
+  if(loginTime){
+    const now = Date.now();
+    const diff = now - parseInt(loginTime);
+
+    if(diff < SESSION_DURATION){
+      openDashboard();
+    }else{
+      localStorage.removeItem("adminLoginTime");
+    }
+  }
+}
+
+/* ========================= */
+/* LOGIN */
+/* ========================= */
 
 window.checkPassword = async function(){
 
@@ -246,8 +272,9 @@ window.checkPassword = async function(){
 
   if(input === ADMIN_PASSWORD){
 
-    document.getElementById("loginBox").style.display="none";
-    document.getElementById("dashboard").style.display="block";
+    localStorage.setItem("adminLoginTime", Date.now());
+
+    openDashboard();
 
     await increaseVisitorCount();
     loadVisitorCount();
@@ -260,7 +287,15 @@ window.checkPassword = async function(){
   }
 };
 
+function openDashboard(){
+  document.getElementById("loginBox").style.display="none";
+  document.getElementById("dashboard").style.display="block";
+}
+
+/* ========================= */
 /* VISITOR COUNTER */
+/* ========================= */
+
 async function increaseVisitorCount(){
   const ref = doc(db,"analytics","visits");
   const snap = await getDoc(ref);
@@ -283,7 +318,10 @@ async function loadVisitorCount(){
   }
 }
 
+/* ========================= */
 /* WINNERS */
+/* ========================= */
+
 async function loadWinners(){
   const container = document.getElementById("winnersContainer");
   container.innerHTML = "";
@@ -311,7 +349,10 @@ window.deleteWinner = async function(id){
   }
 };
 
+/* ========================= */
 /* REVIEWS */
+/* ========================= */
+
 async function loadReviews(){
   const container = document.getElementById("reviewsContainer");
   container.innerHTML = "";
@@ -340,7 +381,10 @@ window.deleteReview = async function(id){
   }
 };
 
+/* ========================= */
 /* PROMO CODES */
+/* ========================= */
+
 async function loadPromoCodes(){
 
   const codes5 = document.getElementById("codes5");
