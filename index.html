@@ -610,12 +610,12 @@ spinBtn.addEventListener("click", async ()=>{
 
     const prizeRand = Math.random();
 
-    if(prizeRand < 0.55){
-      discount = 10;
-    }else if(prizeRand < 0.85){
-      discount = 5;
-    }else{
+    if(prizeRand < 0.02){
       discount = 20;
+    }else if(prizeRand < 0.72){
+      discount = 10;
+    }else{
+      discount = 5;
     }
 
     /* 🔥 GET AVAILABLE CODE FROM FIRESTORE */
