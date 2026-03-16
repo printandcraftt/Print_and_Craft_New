@@ -160,26 +160,8 @@ nav a{
   </div>
 
   <div class="section">
-    <h2>Promo Winners 🎉</h2>
-    <div id="winnersContainer"></div>
-  </div>
-
-  <div class="section">
     <h2>Customer Reviews 💬</h2>
     <div id="reviewsContainer"></div>
-  </div>
-
-  <div class="section">
-    <h2>Promo Codes Management 🎁</h2>
-
-    <h3>5% Discount Codes</h3>
-    <div id="codes5" class="codes-grid"></div>
-
-    <h3 style="margin-top:30px;">10% Discount Codes</h3>
-    <div id="codes10" class="codes-grid"></div>
-
-    <h3 style="margin-top:30px;">20% Discount Codes</h3>
-    <div id="codes20" class="codes-grid"></div>
   </div>
 
 </div>
@@ -243,11 +225,8 @@ function openDashboard(){
 async function loadAll(){
   await increaseVisitorCount().catch(()=>{});
   await loadVisitorCount().catch(()=>{});
-  await loadWinners().catch(()=>{});
   await loadReviews().catch(()=>{});
-  await loadPromoCodes().catch(()=>{});
 }
-
 /* ANALYTICS */
 async function increaseVisitorCount(){
   const ref = doc(db,"analytics","visits");
@@ -265,30 +244,6 @@ async function loadVisitorCount(){
     snap.exists() ? `<strong>${snap.data().count}</strong> total admin logins` : "0 visits";
 }
 
-/* WINNERS */
-async function loadWinners(){
-  const container = document.getElementById("winnersContainer");
-  container.innerHTML="";
-  const snapshot = await getDocs(collection(db,"promo_winners"));
-  snapshot.forEach(docSnap=>{
-    const data = docSnap.data();
-    container.innerHTML+=`
-      <div class="card">
-        <strong>${data.code}</strong><br>
-        ${data.discount}% OFF
-        <br>
-        <button class="action-btn delete-btn" onclick="deleteWinner('${docSnap.id}')">Delete</button>
-      </div>
-    `;
-  });
-}
-
-window.deleteWinner = async function(id){
-  if(confirm("Delete this winner?")){
-    await deleteDoc(doc(db,"promo_winners",id));
-    loadWinners();
-  }
-};
 
 /* REVIEWS */
 async function loadReviews(){
@@ -315,46 +270,6 @@ window.deleteReview = async function(id){
     loadReviews();
   }
 };
-
-/* PROMO CODES */
-async function loadPromoCodes(){
-  const codes5=document.getElementById("codes5");
-  const codes10=document.getElementById("codes10");
-  const codes20=document.getElementById("codes20");
-
-  codes5.innerHTML="";
-  codes10.innerHTML="";
-  codes20.innerHTML="";
-
-  const snapshot=await getDocs(collection(db,"promo_codes"));
-
-  snapshot.forEach(docSnap=>{
-    const data=docSnap.data();
-
-    const container=
-      data.discount===5?codes5:
-      data.discount===10?codes10:
-      codes20;
-
-    container.innerHTML+=`
-      <div class="code-card ${data.used?"used":""}">
-        <strong>${data.code}</strong><br>
-        <span class="${data.used?"status-used":"status-available"}">
-          ${data.used?"Used ❌":"Available ✅"}
-        </span>
-        ${!data.used?`<br><button class="action-btn use-btn" onclick="markUsed('${docSnap.id}')">Mark as Used</button>`:""}
-      </div>
-    `;
-  });
-}
-
-window.markUsed=async function(id){
-  if(confirm("Mark this code as used?")){
-    await updateDoc(doc(db,"promo_codes",id),{used:true});
-    loadPromoCodes();
-  }
-};
-
 </script>
 
 </body>
