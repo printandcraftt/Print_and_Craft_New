@@ -191,6 +191,23 @@ opacity:0.4;
 opacity:1;
 }
 
+.out-banner{
+position:absolute;
+top:10px;
+left:10px;
+background:red;
+color:white;
+padding:5px 10px;
+font-size:12px;
+border-radius:20px;
+font-weight:700;
+z-index:10;
+}
+
+.product{
+position:relative;
+}
+
 footer{
 background:#6a00f4;
 color:white;
@@ -288,36 +305,52 @@ height:220px;
   <div class="grid">
 
     <div class="product">
+      <span id="polaroidStock" class="out-banner" style="display:none;">
       <img src="images/polaroid/Polaroid.jpg">
       <h3>Polaroid Prints</h3>
       <p>High-quality polaroid prints to capture your best memories.</p>
     </div>
 
     <div class="product">
+      <span id="boxsetStock" class="out-banner" style="display:none;">
+OUT OF STOCK
+</span>
       <img src="images/box set/Box set.jpg">
       <h3>Polaroid Box Set</h3>
       <p>Complete 45-piece custom polaroid collection inside a premium gift box.</p>
     </div>
 
     <div class="product">
+      <span id="braceletStock" class="out-banner" style="display:none;">
+OUT OF STOCK
+</span>
       <img src="images/bracelet/Bracelet.jpg">
       <h3>Bracelet</h3>
       <p>Customized beaded bracelets for couples and loved ones.</p>
     </div>
 
     <div class="product">
+      <span id="keychainStock" class="out-banner" style="display:none;">
+OUT OF STOCK
+</span>
       <img src="images/keychain/Keychain.jpg">
       <h3>Keychain</h3>
       <p>Personalized keychains to carry your favorite photo everywhere.</p>
     </div>
 
     <div class="product">
+      <span id="frameStock" class="out-banner" style="display:none;">
+OUT OF STOCK
+</span>
       <img src="images/frame/Frame.jpg">
       <h3>Photo Frame</h3>
       <p>Spotify-style music photo frame gift idea for special occasions.</p>
     </div>
 
     <div class="product">
+      <span id="frameStock" class="out-banner" style="display:none;">
+OUT OF STOCK
+</span>
       <img src="images/Photostrips/PhotoStrips.jpg">
       <h3>Photostrips</h3>
       <p>Mini photo booth strips perfect for cute and fun memories.</p>
@@ -364,8 +397,8 @@ height:220px;
 <footer>
   <p>Made with 💜 by Print & Craft</p>
 </footer>
+  
 <script type="module">
-
 /* ================= FIREBASE IMPORT ================= */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
 import { 
@@ -378,9 +411,10 @@ import {
   where,
   limit,
   updateDoc,
-  doc
+  doc,
+  getDoc
 } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
-
+  
 /* ================= FIREBASE CONFIG ================= */
 const firebaseConfig = {
   apiKey: "AIzaSyCCMd6565SLeJx0zCM5h8bkj5UzSBZeQcA",
@@ -393,6 +427,25 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+async function checkStock(productId, elementId){
+
+const snap = await getDoc(doc(db,"products",productId));
+
+if(snap.exists()){
+if(snap.data().stock === false){
+document.getElementById(elementId).style.display = "block";
+}
+}
+
+}
+
+checkStock("polaroid","polaroidStock");
+checkStock("boxset","boxsetStock");
+checkStock("bracelet","braceletStock");
+checkStock("keychain","keychainStock");
+checkStock("frame","frameStock");
+checkStock("photostrips","photostripsStock");  
 
 /* ================= DARK MODE ================= */
 const toggle = document.getElementById("darkToggle");
