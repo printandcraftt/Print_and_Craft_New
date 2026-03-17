@@ -439,10 +439,20 @@ async function checkStock(productId, elementId){
 
 const snap = await getDoc(doc(db,"products",productId));
 
+console.log("Checking:", productId);
+
 if(snap.exists()){
+console.log("Data:", snap.data());
+
 if(snap.data().stock === false){
+console.log("OUT OF STOCK:", productId);
 document.getElementById(elementId).style.display = "block";
+} else {
+console.log("IN STOCK:", productId);
 }
+
+}else{
+console.log("NO DOCUMENT:", productId);
 }
 
 }
