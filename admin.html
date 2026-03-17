@@ -150,6 +150,19 @@ nav a{
 
   </div>
 
+  <div class="section">
+
+<h2>📦 Product Stock Control</h2>
+
+<div class="card">Polaroid <button onclick="toggleStock('polaroid')">Toggle</button></div>
+<div class="card">Box Set <button onclick="toggleStock('boxset')">Toggle</button></div>
+<div class="card">Bracelet <button onclick="toggleStock('bracelet')">Toggle</button></div>
+<div class="card">Keychain <button onclick="toggleStock('keychain')">Toggle</button></div>
+<div class="card">Photo Frame <button onclick="toggleStock('frame')">Toggle</button></div>
+<div class="card">Photostrips <button onclick="toggleStock('photostrips')">Toggle</button></div>
+
+</div>
+
 </div>
 
 <script type="module">
@@ -272,6 +285,19 @@ if(container.style.display === "none"){
 }else{
   container.style.display = "none";
 }
+
+}
+
+window.toggleStock = async function(productId){
+
+const ref = doc(db,"products",productId);
+const snap = await getDoc(ref);
+
+await updateDoc(ref,{
+  stock: !snap.data().stock
+});
+
+alert("Stock updated ✅");
 
 }
 
